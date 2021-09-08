@@ -1,12 +1,13 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider')
 const web3 = require('web3')
 const MNEMONIC = process.env.MNEMONIC.replace(/["]+/g, '');
-const INFURA_KEY = process.env.INFURA_KEY
+// const INFURA_KEY = process.env.INFURA_KEY
+const ALCHEMY_KEY = process.env.ALCHEMY_KEY
 const LOOTBOX_CONTRACT_ADDRESS = process.env.LOOTBOX_CONTRACT_ADDRESS
 const OWNER_ADDRESS = process.env.OWNER_ADDRESS
 const NETWORK = process.env.NETWORK
 
-if (!MNEMONIC || !INFURA_KEY || !OWNER_ADDRESS || !NETWORK) {
+if (!MNEMONIC || !ALCHEMY_KEY || !OWNER_ADDRESS || !NETWORK) {
   console.error(
     'Please set a mnemonic, infura key, owner, network, and contract address.'
   )
@@ -47,7 +48,9 @@ const LOOTBOX_ABI = [
 async function main() {
   const network =
     NETWORK === 'mainnet' || NETWORK === 'live' ? 'mainnet' : 'rinkeby';
-  const provider = new HDWalletProvider({mnemonic: {phrase: MNEMONIC}, providerOrUrl: `https://${network}.infura.io/v3/${INFURA_KEY}`});
+  // const provider = new HDWalletProvider({mnemonic: {phrase: MNEMONIC}, providerOrUrl: `https://${network}.infura.io/v3/${ALCHEMY_KEY}`});
+  const provider = new HDWalletProvider({mnemonic: {phrase: MNEMONIC}, providerOrUrl: `wss://eth-rinkeby.alchemyapi.io/v2/${ALCHEMY_KEY}`});
+  
   const web3Instance = new web3(provider)
 
   if (!LOOTBOX_CONTRACT_ADDRESS) {

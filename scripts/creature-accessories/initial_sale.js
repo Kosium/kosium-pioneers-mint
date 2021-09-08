@@ -9,6 +9,7 @@ const Web3ProviderEngine = require('web3-provider-engine')
 
 const MNEMONIC = process.env.MNEMONIC.replace(/["]+/g, '');
 const INFURA_KEY = process.env.INFURA_KEY
+const ALCHEMY_KEY = process.env.ALCHEMY_KEY
 const FACTORY_CONTRACT_ADDRESS = process.env.FACTORY_CONTRACT_ADDRESS
 const OWNER_ADDRESS = process.env.OWNER_ADDRESS
 const NETWORK = process.env.NETWORK
@@ -20,7 +21,7 @@ const FIXED_PRICE_OPTION_IDS = ['6', '7', '8']
 const FIXED_PRICES_ETH = [0.1, 0.2, 0.3]
 const NUM_FIXED_PRICE_AUCTIONS = [1000, 1000, 1000] // [2034, 2103, 2202];
 
-if (!MNEMONIC || !INFURA_KEY || !NETWORK || !OWNER_ADDRESS) {
+if (!MNEMONIC || !ALCHEMY_KEY || !NETWORK || !OWNER_ADDRESS) {
   console.error(
     'Please set a mnemonic, infura key, owner, network, API key, nft contract, and factory contract address.'
   )
@@ -41,7 +42,8 @@ const mnemonicWalletSubprovider = new MnemonicWalletSubprovider({
 const network =
   NETWORK === 'mainnet' || NETWORK === 'live' ? 'mainnet' : 'rinkeby'
 const infuraRpcSubprovider = new RPCSubprovider({
-  rpcUrl: 'https://' + network + '.infura.io/v3/' + INFURA_KEY,
+  // rpcUrl: 'https://' + network + '.infura.io/v3/' + INFURA_KEY,
+  rpcUrl: 'wss://eth-rinkeby.alchemyapi.io/v2/' + ALCHEMY_KEY,
 })
 
 const providerEngine = new Web3ProviderEngine()

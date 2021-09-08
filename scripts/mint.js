@@ -7,8 +7,8 @@ const FACTORY_CONTRACT_ADDRESS = process.env.FACTORY_CONTRACT_ADDRESS;
 const NFT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS;
 const OWNER_ADDRESS = process.env.OWNER_ADDRESS;
 const NETWORK = process.env.NETWORK;
-const NUM_CREATURES = 12;
-const NUM_LOOTBOXES = 4;
+const NUM_CREATURES = 0;//12
+const NUM_LOOTBOXES = 1;//4
 const DEFAULT_OPTION_ID = 0;
 const LOOTBOX_OPTION_ID = 2;
 
@@ -69,10 +69,11 @@ async function main() {
   const web3Instance = new web3(provider);
 
   if (FACTORY_CONTRACT_ADDRESS) {
+    console.log('minting from factory contract');
     const factoryContract = new web3Instance.eth.Contract(
       FACTORY_ABI,
       FACTORY_CONTRACT_ADDRESS,
-      { gasLimit: "1000000" }
+      { gasLimit: "10000000" }
     );
 
     // Creatures issued directly to the owner.

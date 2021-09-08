@@ -71,7 +71,7 @@ module.exports = {
       provider: function () {
         return new HDWalletProvider({mnemonic: {phrase: MNEMONIC}, providerOrUrl: rinkebyNodeUrl});
       },
-      gas: 5000000,
+      gas: 10000000,
       network_id: 4,
       from: "0x7390ceF3391A2E2079D74E8fFd8EFEF478e1b793"
     },

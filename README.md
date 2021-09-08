@@ -48,9 +48,10 @@ export MNEMONIC="<metmask_mnemonic>"
 DEPLOY_CREATURES_SALE=1 yarn truffle deploy --network rinkeby
 ```
 
+WINDOWS 10
 ```
 set ALCHEMY_KEY=xZkLoVb57y4wBv6dPmjyqqa9hsqsu08c
-set MNEMONIC = island craft tell senior talk photo post fat tomorrow option harbor fame
+set MNEMONIC="island craft tell senior talk photo post fat tomorrow option harbor fame"
 set DEPLOY_ACCESSORIES_SALE=1
 yarn truffle.cmd migrate --network rinkeby
 ```
@@ -65,6 +66,25 @@ export NFT_CONTRACT_ADDRESS="<deployed_contract_address>"
 export FACTORY_CONTRACT_ADDRESS="<deployed_factory_contract_address>"
 export NETWORK="rinkeby"
 node scripts/mint.js
+```
+
+WINDOWS 10
+```
+set ALCHEMY_KEY=xZkLoVb57y4wBv6dPmjyqqa9hsqsu08c
+set MNEMONIC="island craft tell senior talk photo post fat tomorrow option harbor fame"
+set OWNER_ADDRESS=0x7390ceF3391A2E2079D74E8fFd8EFEF478e1b793
+set FACTORY_CONTRACT_ADDRESS=0xf69E56A1C832748a11F1883eaf0BceA2D7eB3D9e
+set NETWORK=rinkeby
+node scripts/mint.js
+```
+creature accessory lootbox minting
+```
+set ALCHEMY_KEY=xZkLoVb57y4wBv6dPmjyqqa9hsqsu08c
+set MNEMONIC="island craft tell senior talk photo post fat tomorrow option harbor fame"
+set OWNER_ADDRESS=0x7390ceF3391A2E2079D74E8fFd8EFEF478e1b793
+set LOOTBOX_CONTRACT_ADDRESS=0x6d8747d7314Aa237B0D8B0e301314c3fD93730D0
+set NETWORK=rinkeby
+node scripts/creature-accessories/advanced/mint.js
 ```
 
 ### Diagnosing Common Issues
