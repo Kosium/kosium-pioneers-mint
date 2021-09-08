@@ -1,6 +1,6 @@
-const HDWalletProvider = require('truffle-hdwallet-provider')
+const HDWalletProvider = require('@truffle/hdwallet-provider')
 const web3 = require('web3')
-const MNEMONIC = process.env.MNEMONIC
+const MNEMONIC = process.env.MNEMONIC.replace(/["]+/g, '');
 const INFURA_KEY = process.env.INFURA_KEY
 const LOOTBOX_CONTRACT_ADDRESS = process.env.LOOTBOX_CONTRACT_ADDRESS
 const OWNER_ADDRESS = process.env.OWNER_ADDRESS
@@ -46,11 +46,8 @@ const LOOTBOX_ABI = [
  */
 async function main() {
   const network =
-    NETWORK === 'mainnet' || NETWORK === 'live' ? 'mainnet' : 'rinkeby'
-  const provider = new HDWalletProvider(
-    MNEMONIC,
-    `https://${network}.infura.io/v3/${INFURA_KEY}`
-  )
+    NETWORK === 'mainnet' || NETWORK === 'live' ? 'mainnet' : 'rinkeby';
+  const provider = new HDWalletProvider({mnemonic: {phrase: MNEMONIC}, providerOrUrl: `https://${network}.infura.io/v3/${INFURA_KEY}`});
   const web3Instance = new web3(provider)
 
   if (!LOOTBOX_CONTRACT_ADDRESS) {

@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.0;
 
-import "openzeppelin-solidity/contracts/access/Ownable.sol";
-import "openzeppelin-solidity/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 import "./IFactoryERC721.sol";
 import "./Creature.sol";
 import "./CreatureLootBox.sol";
@@ -76,7 +76,7 @@ contract CreatureFactory is FactoryERC721, Ownable {
 
     function mint(uint256 _optionId, address _toAddress) override public {
         // Must be sent from the owner proxy or owner.
-        ProxyRegistry proxyRegistry = ProxyRegistry(proxyRegistryAddress);
+        ProxyRegistry721 proxyRegistry = ProxyRegistry721(proxyRegistryAddress);
         assert(
             address(proxyRegistry.proxies(owner())) == _msgSender() ||
                 owner() == _msgSender() ||
@@ -154,7 +154,7 @@ contract CreatureFactory is FactoryERC721, Ownable {
             return true;
         }
 
-        ProxyRegistry proxyRegistry = ProxyRegistry(proxyRegistryAddress);
+        ProxyRegistry721 proxyRegistry = ProxyRegistry721(proxyRegistryAddress);
         if (
             owner() == _owner &&
             address(proxyRegistry.proxies(_owner)) == _operator

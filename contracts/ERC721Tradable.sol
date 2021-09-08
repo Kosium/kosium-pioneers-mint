@@ -2,19 +2,19 @@
 
 pragma solidity ^0.8.0;
 
-import "openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
-import "openzeppelin-solidity/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "openzeppelin-solidity/contracts/access/Ownable.sol";
-import "openzeppelin-solidity/contracts/utils/math/SafeMath.sol";
-import "openzeppelin-solidity/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 import "./common/meta-transactions/ContentMixin.sol";
 import "./common/meta-transactions/NativeMetaTransaction.sol";
 
-contract OwnableDelegateProxy {}
+contract OwnableDelegateProxy721 {}
 
-contract ProxyRegistry {
-    mapping(address => OwnableDelegateProxy) public proxies;
+contract ProxyRegistry721 {
+    mapping(address => OwnableDelegateProxy721) public proxies;
 }
 
 /**
@@ -77,7 +77,7 @@ abstract contract ERC721Tradable is ContextMixin, ERC721Enumerable, NativeMetaTr
         returns (bool)
     {
         // Whitelist OpenSea proxy contract for easy trading.
-        ProxyRegistry proxyRegistry = ProxyRegistry(proxyRegistryAddress);
+        ProxyRegistry721 proxyRegistry = ProxyRegistry721(proxyRegistryAddress);
         if (address(proxyRegistry.proxies(owner)) == operator) {
             return true;
         }
