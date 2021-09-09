@@ -24,35 +24,14 @@ const NFT_ABI = [
     constant: false,
     inputs: [
       {
-        name: "_to",
-        type: "address",
-      },
-    ],
-    name: "mintTo",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-];
-
-const FACTORY_ABI = [
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_optionId",
+        name: "numberOfTokens",
         type: "uint256",
       },
-      {
-        name: "_toAddress",
-        type: "address",
-      },
     ],
-    name: "mint",
+    name: "mintPioneer",
     outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
+    payable: true,
+    stateMutability: "payable",
     type: "function",
   },
 ];
@@ -68,43 +47,18 @@ async function main() {
     });
   const web3Instance = new web3(provider);
 
-  if (FACTORY_CONTRACT_ADDRESS) {
-    console.log('minting from factory contract');
-    const factoryContract = new web3Instance.eth.Contract(
-      FACTORY_ABI,
-      FACTORY_CONTRACT_ADDRESS,
-      { gasLimit: "10000000" }
-    );
-
-    // Creatures issued directly to the owner.
-    for (var i = 0; i < NUM_CREATURES; i++) {
-      const result = await factoryContract.methods
-        .mint(DEFAULT_OPTION_ID, OWNER_ADDRESS)
-        .send({ from: OWNER_ADDRESS });
-      console.log("Minted creature. Transaction: " + result.transactionHash);
-    }
-
-    // Lootboxes issued directly to the owner.
-    for (var i = 0; i < NUM_LOOTBOXES; i++) {
-      const result = await factoryContract.methods
-        .mint(LOOTBOX_OPTION_ID, OWNER_ADDRESS)
-        .send({ from: OWNER_ADDRESS });
-      console.log("Minted lootbox. Transaction: " + result.transactionHash);
-    }
-  } else if (NFT_CONTRACT_ADDRESS) {
+  if (NFT_CONTRACT_ADDRESS) {
     const nftContract = new web3Instance.eth.Contract(
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
       { gasLimit: "1000000" }
     );
 
-    // Creatures issued directly to the owner.
-    for (var i = 0; i < NUM_CREATURES; i++) {
-      const result = await nftContract.methods
-        .mintTo(OWNER_ADDRESS)
-        .send({ from: OWNER_ADDRESS });
-      console.log("Minted creature. Transaction: " + result.transactionHash);
-    }
+    // Pioneers issued directly to the owner.
+    const result = await nftContract.methods
+      .mintPioneer(2)
+      .send({ from: OWNER_ADDRESS });
+    console.log("Minted pioneer. Transaction: " + result.transactionHash);
   } else {
     console.error(
       "Add NFT_CONTRACT_ADDRESS or FACTORY_CONTRACT_ADDRESS to the environment variables"
