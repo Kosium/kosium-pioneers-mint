@@ -5,8 +5,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "./IFactoryERC721.sol";
-import "./Creature.sol";
-import "./CreatureLootBox.sol";
+import "./KosiumPioneer.sol";
 
 contract CreatureFactory is FactoryERC721, Ownable {
     using Strings for string;
@@ -40,7 +39,7 @@ contract CreatureFactory is FactoryERC721, Ownable {
         proxyRegistryAddress = _proxyRegistryAddress;
         nftAddress = _nftAddress;
         lootBoxNftAddress = address(
-            new CreatureLootBox(_proxyRegistryAddress, address(this))
+            new KosiumPioneer(_proxyRegistryAddress, address(this))
         );
 
         fireTransferEvents(address(0), owner());
@@ -84,7 +83,7 @@ contract CreatureFactory is FactoryERC721, Ownable {
         );
         require(canMint(_optionId));
 
-        Creature openSeaCreature = Creature(nftAddress);
+        KosiumPioneer openSeaCreature = KosiumPioneer(nftAddress);
         if (_optionId == SINGLE_CREATURE_OPTION) {
             openSeaCreature.mintTo(_toAddress);
         } else if (_optionId == MULTIPLE_CREATURE_OPTION) {
@@ -95,12 +94,13 @@ contract CreatureFactory is FactoryERC721, Ownable {
             ) {
                 openSeaCreature.mintTo(_toAddress);
             }
-        } else if (_optionId == LOOTBOX_OPTION) {
-            CreatureLootBox openSeaCreatureLootBox = CreatureLootBox(
-                lootBoxNftAddress
-            );
-            openSeaCreatureLootBox.mintTo(_toAddress);
-        }
+        } 
+        // else if (_optionId == LOOTBOX_OPTION) {
+        //     CreatureLootBox openSeaCreatureLootBox = CreatureLootBox(
+        //         lootBoxNftAddress
+        //     );
+        //     openSeaCreatureLootBox.mintTo(_toAddress);
+        // }
     }
 
     function canMint(uint256 _optionId) override public view returns (bool) {
@@ -108,7 +108,7 @@ contract CreatureFactory is FactoryERC721, Ownable {
             return false;
         }
 
-        Creature openSeaCreature = Creature(nftAddress);
+        KosiumPioneer openSeaCreature = KosiumPioneer(nftAddress);
         uint256 creatureSupply = openSeaCreature.totalSupply();
 
         uint256 numItemsAllocated = 0;
@@ -116,12 +116,13 @@ contract CreatureFactory is FactoryERC721, Ownable {
             numItemsAllocated = 1;
         } else if (_optionId == MULTIPLE_CREATURE_OPTION) {
             numItemsAllocated = NUM_CREATURES_IN_MULTIPLE_CREATURE_OPTION;
-        } else if (_optionId == LOOTBOX_OPTION) {
-            CreatureLootBox openSeaCreatureLootBox = CreatureLootBox(
-                lootBoxNftAddress
-            );
-            numItemsAllocated = openSeaCreatureLootBox.itemsPerLootbox();
-        }
+        } 
+        // else if (_optionId == LOOTBOX_OPTION) {
+        //     CreatureLootBox openSeaCreatureLootBox = CreatureLootBox(
+        //         lootBoxNftAddress
+        //     );
+        //     numItemsAllocated = openSeaCreatureLootBox.itemsPerLootbox();
+        // }
         return creatureSupply < (CREATURE_SUPPLY - numItemsAllocated);
     }
 

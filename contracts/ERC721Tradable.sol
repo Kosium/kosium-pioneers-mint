@@ -26,12 +26,17 @@ abstract contract ERC721Tradable is ContextMixin, ERC721Enumerable, NativeMetaTr
 
     address proxyRegistryAddress;
     uint256 private _currentTokenId = 0;
+    uint256 public MAX_PIONEERS;
+
+    string public baseURI;
 
     constructor(
         string memory _name,
         string memory _symbol,
-        address _proxyRegistryAddress
+        address _proxyRegistryAddress,
+        uint256 maxNftSupply
     ) ERC721(_name, _symbol) {
+        MAX_PIONEERS = maxNftSupply;
         proxyRegistryAddress = _proxyRegistryAddress;
         _initializeEIP712(_name);
     }
@@ -61,10 +66,26 @@ abstract contract ERC721Tradable is ContextMixin, ERC721Enumerable, NativeMetaTr
         _currentTokenId++;
     }
 
-    function baseTokenURI() virtual public pure returns (string memory);
+    function _baseURI() internal view virtual override returns (string memory) {
+        return baseURI;
+    }
 
-    function tokenURI(uint256 _tokenId) override public pure returns (string memory) {
-        return string(abi.encodePacked(baseTokenURI(), Strings.toString(_tokenId)));
+    function setBaseTokenURI(string memory newBaseURI) public onlyOwner {
+        baseURI = newBaseURI;
+    }
+
+    // function tokenURI(uint256 _tokenId) override public pure returns (string memory) {
+    //     return string(abi.encodePacked(_baseURI(), Strings.toString(_tokenId)));
+    // }
+
+    /**
+     * @dev See {IERC721Metadata-tokenURI}.
+     */
+    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
+        require(tokenId < MAX_PIONEERS, "ERC721Metadata: tokenId is too large");
+
+        return string(abi.encodePacked(_baseURI(), Strings.toString(tokenId)));
     }
 
     /**
