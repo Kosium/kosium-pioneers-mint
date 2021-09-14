@@ -1,4 +1,3 @@
-/* Contracts in this test */
 const Web3 = require('web3');
 
 let web3 = new Web3('ws://localhost:7545');
@@ -8,25 +7,14 @@ const KosiumPioneer = artifacts.require(
     "../contracts/KosiumPioneer.sol"
 );
   
+//need to test if MAX_PIONEERS are minted that it stops minting with correct error msg
   
 contract("KosiumPioneer", (accounts) => {
-    // const URI_BASE = 'https://creatures-api.opensea.io';
-    // const CONTRACT_URI = `${URI_BASE}/contract/opensea-erc1155`;
     let kosiumPioneer;
 
     before(async () => {
         kosiumPioneer = await KosiumPioneer.deployed();
     });
-
-    // This is all we test for now
-
-    // This also tests contractURI()
-
-    // describe('#constructor()', () => {
-    //     it('should set the contractURI to the supplied value', async () => {
-    //     assert.equal(await creatureAccessory.contractURI(), CONTRACT_URI);
-    //     });
-    // });
 
     it('should reserve a pioneer', async ()=>{
         let reserveReturn = await kosiumPioneer.reservePioneers(1);
@@ -60,10 +48,6 @@ contract("KosiumPioneer", (accounts) => {
         // console.log('should be txn: ', successMint);
         assert(successMint.hasOwnProperty('tx'));
     });
-
-    // it('should mint a pioneer', async()=>{
-    //     //
-    // });
 
     it('should withdraw the balance', async()=>{
         let balanceBefore = await web3.eth.getBalance(accounts[0]);//instance.address);
