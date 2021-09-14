@@ -8,6 +8,7 @@ const KosiumPioneer = artifacts.require(
 );
   
 //need to test if MAX_PIONEERS are minted that it stops minting with correct error msg
+//need to set up reentrancy test
   
 contract("KosiumPioneer", (accounts) => {
     let kosiumPioneer;
