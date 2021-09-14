@@ -14,6 +14,6 @@ module.exports = async (deployer, network, addresses) => {
   }
 
   if (DEPLOY_PIONEERS) {
-    await deployer.deploy(Pioneer, proxyRegistryAddress, {gas: 5000000});
+    await deployer.deploy(Pioneer, proxyRegistryAddress, 10000, {gas: 5000000});
   }  
 };

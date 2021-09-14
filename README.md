@@ -56,6 +56,16 @@ set DEPLOY_ACCESSORIES_SALE=1
 yarn truffle.cmd migrate --network rinkeby
 ```
 
+## TESTING ON GANACHE LOCALLY
+
+DEPLOYMENT
+WINDOWS 10 
+```
+set MNEMONIC="pledge recall piece lift squirrel force practice cupboard lion wife start charge"
+set DEPLOY_PIONEERS=1
+yarn truffle.cmd migrate --network development
+```
+
 ### Minting tokens.
 
 After deploying to the Rinkeby network, there will be a contract on Rinkeby that will be viewable on [Rinkeby Etherscan](https://rinkeby.etherscan.io). For example, here is a [recently deployed contract](https://rinkeby.etherscan.io/address/0xeba05c5521a3b81e23d15ae9b2d07524bc453561). You should set this contract address and the address of your Metamask account as environment variables when running the minting script. If a [CreatureFactory was deployed](https://github.com/ProjectOpenSea/opensea-creatures/blob/master/migrations/2_deploy_contracts.js#L38), which the sample deploy steps above do, you'll need to specify its address below as it will be the owner on the NFT contract, and only it will have mint permissions. In that case, you won't need NFT_CONTRACT_ADDRESS, as all we need is the contract with mint permissions here.

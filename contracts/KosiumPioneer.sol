@@ -33,9 +33,9 @@ contract KosiumPioneer is ERC721Tradable {
     }
 
     /**
-     * Set some Bored Apes aside
+     * Set some Kosium Pioneers aside
      */
-    function reserveApes(uint numberToReserve) public onlyOwner {        
+    function reservePioneers(uint numberToReserve) public onlyOwner {        
         uint supply = totalSupply();
         uint i;
         for (i = 0; i < numberToReserve; i++) {
@@ -54,9 +54,9 @@ contract KosiumPioneer is ERC721Tradable {
     * Mints Kosium Pioneers
     */
     function mintPioneer(uint numberOfTokens) public payable {
-        require(saleIsActive, "Sale must be active to mint Ape");
+        require(saleIsActive, "Sale must be active to mint Pioneer");
         require(numberOfTokens <= maxPioneerPurchase, "Can only mint 20 tokens at a time");
-        require(totalSupply().add(numberOfTokens) <= MAX_PIONEERS, "Purchase would exceed max supply of Apes");
+        require(totalSupply().add(numberOfTokens) <= MAX_PIONEERS, "Purchase would exceed max supply of Pioneers");
         require(pioneerPrice.mul(numberOfTokens) <= msg.value, "Ether value sent is not correct");
         
         for(uint i = 0; i < numberOfTokens; i++) {
