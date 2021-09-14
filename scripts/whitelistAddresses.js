@@ -18,18 +18,21 @@ const NFT_ABI = [
   {
     constant: false,
     inputs: [
-      {
-        name: "numberOfTokens",
-        type: "uint256",
-      },
+        {
+          name: "earlyAdopterAddress",
+          type: "address",
+        },
     ],
-    name: "mintPioneer",
+    name: "whitelistAddressForPresale",
     outputs: [],
     payable: true,
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];
+
+//can read from csv later
+let addressToWhiteList = '0x7390ceF3391A2E2079D74E8fFd8EFEF478e1b793';
 
 async function main() {
   const network =
@@ -49,16 +52,16 @@ async function main() {
       { gasLimit: "1000000" }
     );
 
-    // Pioneers issued directly to the owner.
     const result = await nftContract.methods
-      .mintPioneer(2)
-      .send({ from: OWNER_ADDRESS, value: 160000000000000000 });
-    console.log("Minted pioneer. Transaction: " + result.transactionHash);
-  } else {
-    console.error(
-      "Add NFT_CONTRACT_ADDRESS or FACTORY_CONTRACT_ADDRESS to the environment variables"
-    );
-  }
+      .whitelistAddressForPresale(addressToWhiteList)
+      .send({ from: OWNER_ADDRESS });
+    console.log("Addresses whitelisted. Transaction: " + result.transactionHash);
+
+    } else {
+        console.error(
+        "Add NFT_CONTRACT_ADDRESS or FACTORY_CONTRACT_ADDRESS to the environment variables"
+        );
+    }
 }
 
 main();

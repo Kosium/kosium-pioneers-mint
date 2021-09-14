@@ -52,7 +52,7 @@ WINDOWS 10
 ```
 set ALCHEMY_KEY=xZkLoVb57y4wBv6dPmjyqqa9hsqsu08c
 set MNEMONIC="island craft tell senior talk photo post fat tomorrow option harbor fame"
-set DEPLOY_ACCESSORIES_SALE=1
+set DEPLOY_PIONEERS=1
 yarn truffle.cmd migrate --network rinkeby
 ```
 
@@ -61,7 +61,7 @@ yarn truffle.cmd migrate --network rinkeby
 DEPLOYMENT
 WINDOWS 10 
 ```
-set MNEMONIC="pledge recall piece lift squirrel force practice cupboard lion wife start charge"
+set MNEMONIC="drift cliff recipe speak question network proud hotel betray wool fire expose"
 set DEPLOY_PIONEERS=1
 yarn truffle.cmd migrate --network development
 ```
@@ -83,18 +83,9 @@ WINDOWS 10
 set ALCHEMY_KEY=xZkLoVb57y4wBv6dPmjyqqa9hsqsu08c
 set MNEMONIC="island craft tell senior talk photo post fat tomorrow option harbor fame"
 set OWNER_ADDRESS=0x7390ceF3391A2E2079D74E8fFd8EFEF478e1b793
-set FACTORY_CONTRACT_ADDRESS=0xf69E56A1C832748a11F1883eaf0BceA2D7eB3D9e
+set NFT_CONTRACT_ADDRESS=0xdF19371513fA8b859E21b854f008ffC158dFEefb
 set NETWORK=rinkeby
-node scripts/mint.js
-```
-creature accessory lootbox minting
-```
-set ALCHEMY_KEY=xZkLoVb57y4wBv6dPmjyqqa9hsqsu08c
-set MNEMONIC="island craft tell senior talk photo post fat tomorrow option harbor fame"
-set OWNER_ADDRESS=0x7390ceF3391A2E2079D74E8fFd8EFEF478e1b793
-set LOOTBOX_CONTRACT_ADDRESS=0x6d8747d7314Aa237B0D8B0e301314c3fD93730D0
-set NETWORK=rinkeby
-node scripts/creature-accessories/advanced/mint.js
+node scripts/setBaseUri.js
 ```
 
 ### Diagnosing Common Issues

@@ -19,14 +19,14 @@ const NFT_ABI = [
     constant: false,
     inputs: [
       {
-        name: "numberOfTokens",
+        name: "numberToReserve",
         type: "uint256",
       },
     ],
-    name: "mintPioneer",
+    name: "reservePioneers",
     outputs: [],
     payable: true,
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];
@@ -46,14 +46,14 @@ async function main() {
     const nftContract = new web3Instance.eth.Contract(
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
-      { gasLimit: "1000000" }
+      { gasLimit: "5000000" }
     );
 
     // Pioneers issued directly to the owner.
     const result = await nftContract.methods
-      .mintPioneer(2)
-      .send({ from: OWNER_ADDRESS, value: 160000000000000000 });
-    console.log("Minted pioneer. Transaction: " + result.transactionHash);
+      .reservePioneers(1)
+      .send({ from: OWNER_ADDRESS });
+    console.log("Pioneers reserved. Transaction: " + result.transactionHash);
   } else {
     console.error(
       "Add NFT_CONTRACT_ADDRESS or FACTORY_CONTRACT_ADDRESS to the environment variables"

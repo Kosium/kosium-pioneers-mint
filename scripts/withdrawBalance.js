@@ -18,15 +18,11 @@ const NFT_ABI = [
   {
     constant: false,
     inputs: [
-      {
-        name: "numberOfTokens",
-        type: "uint256",
-      },
     ],
-    name: "mintPioneer",
+    name: "withdraw",
     outputs: [],
     payable: true,
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];
@@ -49,16 +45,16 @@ async function main() {
       { gasLimit: "1000000" }
     );
 
-    // Pioneers issued directly to the owner.
     const result = await nftContract.methods
-      .mintPioneer(2)
-      .send({ from: OWNER_ADDRESS, value: 160000000000000000 });
-    console.log("Minted pioneer. Transaction: " + result.transactionHash);
-  } else {
-    console.error(
-      "Add NFT_CONTRACT_ADDRESS or FACTORY_CONTRACT_ADDRESS to the environment variables"
-    );
-  }
+      .withdraw()
+      .send({ from: OWNER_ADDRESS });
+    console.log("Balance withdrawed to owner. Transaction: " + result.transactionHash);
+
+    } else {
+        console.error(
+        "Add NFT_CONTRACT_ADDRESS or FACTORY_CONTRACT_ADDRESS to the environment variables"
+        );
+    }
 }
 
 main();

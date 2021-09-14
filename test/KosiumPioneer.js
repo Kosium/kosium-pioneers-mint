@@ -18,7 +18,7 @@ contract("KosiumPioneer", (accounts) => {
     });
 
     it('should reserve a pioneer', async ()=>{
-        let reserveReturn = await kosiumPioneer.reservePioneers(1);
+        let reserveReturn = await kosiumPioneer.reservePioneers(40, {gas: 5000000});
         assert(reserveReturn.hasOwnProperty('tx'));
         let addrOwner = await kosiumPioneer.ownerOf(0);
         // console.log('addrOwner: ', addrOwner);
@@ -32,6 +32,21 @@ contract("KosiumPioneer", (accounts) => {
         // console.log('uri0: ', uri0);
         let correctURI0 = baseUri + '0';
         assert.equal(correctURI0, uri0);
+    });
+
+    it('should start the presale', async()=>{
+        await kosiumPioneer.whitelistAddressForPresale(accounts[0]);
+        let errHappened = false;
+        try{
+            let errMsg = await kosiumPioneer.mintPresalePioneer(1);
+        }
+        catch(e){
+            errHappened = true;
+        }
+        assert(errHappened);
+        await kosiumPioneer.flipPresaleState();
+        let successMint = await kosiumPioneer.mintPresalePioneer(2,{value: 160000000000000000});
+        assert(successMint.hasOwnProperty('tx'));
     });
 
     it('should start the sale', async()=>{
