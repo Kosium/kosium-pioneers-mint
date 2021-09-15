@@ -19,14 +19,14 @@ const NFT_ABI = [
     constant: false,
     inputs: [
       {
-        name: "numberOfTokens",
-        type: "uint256",
+        name: "newBaseURI",
+        type: "string",
       },
     ],
-    name: "mintPioneer",
+    name: "setBaseTokenURI",
     outputs: [],
     payable: true,
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];
@@ -46,19 +46,22 @@ async function main() {
     const nftContract = new web3Instance.eth.Contract(
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
-      { gasLimit: "1000000" }
+      { gasLimit: "3000000" }
     );
+    let baseUri = 'ipfs://QmTjgdDYmQc5KRNveHVzdgmvhaNtr4Z4aHMfamttTCaXXh/';
 
     // Pioneers issued directly to the owner.
+    console.log('setting base token uri. Please wait.')
     const result = await nftContract.methods
-      .mintPioneer(2)
-      .send({ from: OWNER_ADDRESS, value: 160000000000000000 });
-    console.log("Minted pioneer. Transaction: " + result.transactionHash);
-  } else {
-    console.error(
-      "Add NFT_CONTRACT_ADDRESS or FACTORY_CONTRACT_ADDRESS to the environment variables"
-    );
-  }
+      .setBaseTokenURI(baseUri)
+      .send({ from: OWNER_ADDRESS });
+    console.log("Base Token URI Set. Transaction: " + result.transactionHash);
+
+    } else {
+        console.error(
+        "Add NFT_CONTRACT_ADDRESS or FACTORY_CONTRACT_ADDRESS to the environment variables"
+        );
+    }
 }
 
 main();

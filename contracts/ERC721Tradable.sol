@@ -27,6 +27,12 @@ abstract contract ERC721Tradable is ContextMixin, ERC721Enumerable, NativeMetaTr
     address proxyRegistryAddress;
     uint256 private _currentTokenId = 0;
 
+    string public baseURI;
+
+    // Equals to `bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))`
+    // which can be also obtained as `IERC721Receiver(0).onERC721Received.selector`
+    bytes4 private constant _ERC721_RECEIVED = 0x150b7a02;
+
     constructor(
         string memory _name,
         string memory _symbol,
@@ -61,10 +67,25 @@ abstract contract ERC721Tradable is ContextMixin, ERC721Enumerable, NativeMetaTr
         _currentTokenId++;
     }
 
-    function baseTokenURI() virtual public pure returns (string memory);
+    function _baseURI() internal view virtual override returns (string memory) {
+        return baseURI;
+    }
 
-    function tokenURI(uint256 _tokenId) override public pure returns (string memory) {
-        return string(abi.encodePacked(baseTokenURI(), Strings.toString(_tokenId)));
+    function setBaseTokenURI(string memory newBaseURI) public onlyOwner {
+        baseURI = newBaseURI;
+    }
+
+    // function tokenURI(uint256 _tokenId) override public pure returns (string memory) {
+    //     return string(abi.encodePacked(_baseURI(), Strings.toString(_tokenId)));
+    // }
+
+    /**
+     * @dev See {IERC721Metadata-tokenURI}.
+     */
+    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
+
+        return string(abi.encodePacked(_baseURI(), Strings.toString(tokenId)));
     }
 
     /**

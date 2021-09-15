@@ -25,38 +25,30 @@ const mainnetNodeUrl = isInfura
   ? "https://mainnet.infura.io/v3/" + NODE_API_KEY
   : "https://eth-mainnet.alchemyapi.io/v2/" + NODE_API_KEY;
 
-console.log('rinkeby node url: ', rinkebyNodeUrl);
+// console.log('rinkeby node url: ', rinkebyNodeUrl);
 
 
-const bip39 = require("bip39");
-// const hdkey = require('ethereumjs-wallet/hdkey');
-const hdkey = require('E:\\a_Repos\\mythical-weapons\\node_modules\\ethereumjs-wallet\\dist\\hdkey.js');
-// console.log('hdkey: ', hdkey.default);
-const wallet_hdpath="m/44'/60'/0'/0/";
-var addresses = [];
-var address_index = 0;
-var num_addresses = 1;
+// const bip39 = require("bip39");
+// // const hdkey = require('ethereumjs-wallet/hdkey');
+// const hdkey = require('E:\\a_Repos\\mythical-weapons\\node_modules\\ethereumjs-wallet\\dist\\hdkey.js');
+// // console.log('hdkey: ', hdkey.default);
+// const wallet_hdpath="m/44'/60'/0'/0/";
+// var addresses = [];
+// var address_index = 0;
+// var num_addresses = 1;
 
-var getAddr = async function(){
-  for (let i = address_index; i < address_index + num_addresses; i++){
-    var buff = await bip39.mnemonicToSeed(MNEMONIC);
-    const wallet = hdkey.default.fromMasterSeed(buff).derivePath(wallet_hdpath + i).getWallet();
-    const addr = '0x' + wallet.getAddress().toString('hex');
-    addresses.push(addr);
-    // this.wallets[addr] = wallet;
-  }
-  console.log('ALL ADDRESSES: ', addresses);
-}
+// var getAddr = async function(){
+//   for (let i = address_index; i < address_index + num_addresses; i++){
+//     var buff = await bip39.mnemonicToSeed(MNEMONIC);
+//     const wallet = hdkey.default.fromMasterSeed(buff).derivePath(wallet_hdpath + i).getWallet();
+//     const addr = '0x' + wallet.getAddress().toString('hex');
+//     addresses.push(addr);
+//     // this.wallets[addr] = wallet;
+//   }
+//   console.log('ALL ADDRESSES: ', addresses);
+// }
 
-getAddr();
-
-
-  
-
-
-
-
-
+// getAddr();
 
 module.exports = {
   networks: {
