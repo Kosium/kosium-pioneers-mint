@@ -48,7 +48,7 @@ async function main() {
       NFT_CONTRACT_ADDRESS,
       { gasLimit: "3000000" }
     );
-    let baseUri = 'ipfs://QmTjgdDYmQc5KRNveHVzdgmvhaNtr4Z4aHMfamttTCaXXh/';
+    let baseUri = 'ipfs://QmcWNKoQQVyRBLG7w5duxLM1Q3UfPL1yeTZTKjKJcK1CLA/';
 
     // Pioneers issued directly to the owner.
     console.log('setting base token uri. Please wait.')

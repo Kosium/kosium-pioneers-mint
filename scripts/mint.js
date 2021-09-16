@@ -53,7 +53,7 @@ async function main() {
     const result = await nftContract.methods
       .mintPioneer(2)
       .send({ from: OWNER_ADDRESS, value: 160000000000000000 });
-    console.log("Minted pioneer. Transaction: " + result.transactionHash);
+    console.log("Minted pioneer. Transaction: " + JSON.stringify(result));//.transactionHash);
   } else {
     console.error(
       "Add NFT_CONTRACT_ADDRESS or FACTORY_CONTRACT_ADDRESS to the environment variables"

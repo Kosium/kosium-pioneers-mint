@@ -1,0 +1,99 @@
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@kosium">
+<meta name="twitter:creator" content="@KosiumMetaverse">
+<meta name="twitter:title" content="Kosium - Anime Cyberpunk NFTs">
+<meta name="twitter:description" content="Kosium is a futuristic, anime themed metaverse. 10,000 pioneers will volunteer to explore the ether. Pioneer NFTs Coming Soon.">
+<meta name="twitter:image" content="https://uploads-ssl.webflow.com/613208adc28cbf60e2671b78/6137cda5abbde77e42de9401_twitter%20large%20card.png">
+<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js" integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
+
+<script type="text/javascript"> 
+  let numToMint = 0;
+
+  async function mintPioneer(){
+    if (numToMint == 0){
+      return;
+    }
+    
+    console.log('TESTING FUNCTION CALL');
+    console.log('mint this many: ', numToMint);
+    
+    const NFT_ABI = [
+      {
+        constant: false,
+        inputs: [
+          {
+            name: "numberOfTokens",
+            type: "uint256",
+          },
+        ],
+        name: "mintPresalePioneer",
+        outputs: [],
+        payable: true,
+        stateMutability: "payable",
+        type: "function",
+      },
+    ];
+    
+    
+    
+    if(typeof window.ethereum !== 'undefined') {
+      console.log('using current provider. metamask is installed');
+      var web3Instance = new Web3(window.ethereum);//window.web3.currentProvider
+      
+      await ethereum.request({ method: 'eth_requestAccounts' });
+      // const addrs = await ethereum.request({ method: 'eth_accounts' });
+      // console.log('ethereum get accounts', addrs);
+      // let selectedAddr = ethereum.selectedAddress;
+      
+      // var block = await web3Instance.eth.getBlock("latest");
+      // var gasLimit = block.gasLimit/block.transactions.length;
+      const nftContract = new web3Instance.eth.Contract(
+        NFT_ABI,
+        '0xdF19371513fA8b859E21b854f008ffC158dFEefb',
+        { gasLimit: 300000}// toString(gasLimit) }
+      );
+      console.log('minting presale pioneer sending');
+      //web3.eth.getTransactionCount(ethAddress) //can get txn count and increment for nonce
+      const result = await nftContract.methods
+      .mintPresalePioneer(numToMint)
+      .send({ from: ethereum.selectedAddress, value: 80000000000000000*numToMint });
+      console.log('done minting');
+      
+    } else {
+      console.log('metamask not installed');
+    }
+  }
+  
+  function mintMore(){
+    if (numToMint == 2){
+      return;
+    }
+    ++numToMint;
+    updateNumToMintLabel();
+  }
+  
+  function mintLess(){
+    if (numToMint == 0){
+      return;
+    }
+    --numToMint;
+    updateNumToMintLabel();
+  }
+  
+  function updateNumToMintLabel(){
+  	document.getElementById("numToMintLabel").innerHTML = numToMint.toString();
+  }
+</script>
+
+<script>
+    window.onload = function() {
+        var anchors = document.getElementsByTagName('*');
+        for(var i = 0; i < anchors.length; i++) {
+            var anchor = anchors[i];
+            anchor.onclick = function() {
+                code = this.getAttribute('whenClicked');
+                eval(code);   
+            }
+        }
+    }
+</script>

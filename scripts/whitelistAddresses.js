@@ -32,7 +32,9 @@ const NFT_ABI = [
 ];
 
 //can read from csv later
-let addressToWhiteList = '0x7390ceF3391A2E2079D74E8fFd8EFEF478e1b793';
+// let addressToWhiteList = '0x7390ceF3391A2E2079D74E8fFd8EFEF478e1b793';
+// let addressToWhiteList = '0xf82d87ba0b79c200FfC8a9D1e4f0E360198d0Ec9';
+let addressToWhiteList = '0xf0a674B465D5262dAB09485825EB1AEcd3C8d356';
 
 async function main() {
   const network =
@@ -55,7 +57,7 @@ async function main() {
     const result = await nftContract.methods
       .whitelistAddressForPresale(addressToWhiteList)
       .send({ from: OWNER_ADDRESS });
-    console.log("Addresses whitelisted. Transaction: " + result.transactionHash);
+    console.log("Addresses whitelisted. Transaction: " + JSON.stringify(result));//.transactionHash);
 
     } else {
         console.error(

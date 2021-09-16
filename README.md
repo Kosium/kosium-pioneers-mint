@@ -78,7 +78,7 @@ export NETWORK="rinkeby"
 node scripts/mint.js
 ```
 
-WINDOWS 10
+WINDOWS 10 Running Scripts with Rinkeby Deployment
 ```
 set ALCHEMY_KEY=xZkLoVb57y4wBv6dPmjyqqa9hsqsu08c
 set MNEMONIC="island craft tell senior talk photo post fat tomorrow option harbor fame"

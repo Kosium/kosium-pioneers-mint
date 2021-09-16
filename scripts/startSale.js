@@ -48,7 +48,7 @@ async function main() {
     const result = await nftContract.methods
       .flipSaleState()
       .send({ from: OWNER_ADDRESS });
-    console.log("Sale State Flipped. Transaction: " + result.transactionHash);
+    console.log("Sale State Flipped. Transaction: " + JSON.stringify(result));//.transactionHash);
 
     } else {
         console.error(
