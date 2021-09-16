@@ -18,17 +18,19 @@ contract KosiumPioneer is ERC721Tradable {
     uint256 public constant pioneerPrice = 80000000000000000; //0.08 ETH
 
     bool public presaleIsActive = false;
-    uint256 public MAX_PRESALE_PIONEERS = 2098;
+    uint256 public MAX_PRESALE_PIONEERS = 2100;
+    uint256 public PIONEERS_RESERVED = 1000;
+
+    uint256 public numReserved = 0;
 
     mapping(address => bool) public whitelistedPresaleAddresses;
 
     mapping(address => uint256) public presaleBoughtCounts;
 
     constructor(
-            address _proxyRegistryAddress,
             uint256 maxNftSupply
         )
-        ERC721Tradable("Kosium Pioneer", "KPR", _proxyRegistryAddress)
+        ERC721Tradable("Kosium Pioneer", "KPR")
     {
         MAX_PIONEERS = maxNftSupply;
     }
@@ -40,31 +42,33 @@ contract KosiumPioneer is ERC721Tradable {
 
     function withdraw() public onlyOwner {
         uint balance = address(this).balance;
-        msgSender().transfer(balance);
+        payable(msg.sender).transfer(balance);
     }
 
     /**
      * Set some Kosium Pioneers aside
      */
-    function reservePioneers(uint numberToReserve) public onlyOwner {        
+    function reservePioneers(uint numberToReserve) external onlyOwner {        
         uint supply = totalSupply();
+        require(supply + numberToReserve <= MAX_PIONEERS, "Reserving would exceed max supply of Pioneers");
         uint i;
-        for (i = 0; i < numberToReserve; i++) {//should check that not >= max pioneers
+        for (i = 0; i < numberToReserve; i++) {
             _safeMint(msg.sender, supply + i);
+            ++numReserved;
         }
     }
 
     /*
     * Pause sale if active, make active if paused
     */
-    function flipSaleState() public onlyOwner {
+    function flipSaleState() external onlyOwner {
         saleIsActive = !saleIsActive;
     }
 
     /*
     * Pause presale if active, make active if paused
     */
-    function flipPresaleState() public onlyOwner {
+    function flipPresaleState() external onlyOwner {
         presaleIsActive = !presaleIsActive;
     }
     
@@ -74,7 +78,7 @@ contract KosiumPioneer is ERC721Tradable {
     function mintPioneer(uint numberOfTokens) external payable userOnly {
         require(saleIsActive, "Sale must be active to mint Pioneer");
         require(numberOfTokens <= maxPioneerPurchase, "Can only mint 2 tokens at a time");
-        require(totalSupply().add(numberOfTokens) <= MAX_PIONEERS, "Purchase would exceed max supply of Pioneers");
+        require(totalSupply().add(numberOfTokens) <= MAX_PIONEERS - PIONEERS_RESERVED + numReserved, "Purchase would exceed max supply of Pioneers");
         require(pioneerPrice.mul(numberOfTokens) <= msg.value, "Ether value sent is not correct");
         
         for(uint i = 0; i < numberOfTokens; i++) {
@@ -89,18 +93,18 @@ contract KosiumPioneer is ERC721Tradable {
     * Mints Kosium Pioneers for presale
     */
     function mintPresalePioneer(uint numberOfTokens) external payable userOnly {
-        require(presaleIsActive && whitelistedPresaleAddresses[msgSender()], "Presale must be active to mint Pioneer");
-        //check that address won't have more than 2 pioneers after minting
-        require(numberOfTokens + presaleBoughtCounts[msgSender()] <= maxPioneerPurchase, "Each whitelisted address can only mint 2 Pioneers in the presale.");
+        require(presaleIsActive, "Presale must be active to mint Pioneer");
+        require(whitelistedPresaleAddresses[msg.sender], "Sender address must be whitelisted for presale minting");
+        require(numberOfTokens + presaleBoughtCounts[msg.sender] <= maxPioneerPurchase, "Each whitelisted address can only mint 2 Pioneers in the presale.");
         uint newSupplyTotal = totalSupply().add(numberOfTokens);
-        require(newSupplyTotal <= MAX_PRESALE_PIONEERS, "Purchase would exceed max supply of Presale Pioneers");
+        require(newSupplyTotal <= MAX_PRESALE_PIONEERS + numReserved, "Purchase would exceed max supply of Presale Pioneers");
         require(newSupplyTotal <= MAX_PIONEERS, "Purchase would exceed max supply of Pioneers");
         require(pioneerPrice.mul(numberOfTokens) <= msg.value, "Ether value sent is not correct");
         
         for(uint i = 0; i < numberOfTokens; i++) {
             uint mintIndex = totalSupply();
             presaleBoughtCounts[msg.sender] += numberOfTokens;
-            if (totalSupply() < MAX_PIONEERS && totalSupply() < MAX_PRESALE_PIONEERS) {
+            if (totalSupply() < MAX_PIONEERS && totalSupply() < MAX_PRESALE_PIONEERS + numReserved) {
                 _safeMint(msg.sender, mintIndex);
             }
         } 
@@ -109,8 +113,19 @@ contract KosiumPioneer is ERC721Tradable {
     /*
     * Whitelist a user for the presale
     */
-    function whitelistAddressForPresale(address earlyAdopterAddress) public onlyOwner{
-        whitelistedPresaleAddresses[earlyAdopterAddress] = true;
+    function whitelistAddressForPresale(address[] calldata earlyAdopterAddresses) external onlyOwner{
+        for (uint i = 0; i < earlyAdopterAddresses.length; i++){
+            whitelistedPresaleAddresses[earlyAdopterAddresses[i]] = true;
+        }
+    }
+
+    /*
+    * Whitelist a user for the presale
+    */
+    function removeFromWhitelist(address[] calldata earlyAdopterAddresses) external onlyOwner{
+        for (uint i = 0; i < earlyAdopterAddresses.length; i++){
+            whitelistedPresaleAddresses[earlyAdopterAddresses[i]] = false;
+        }
     }
 
     /*
