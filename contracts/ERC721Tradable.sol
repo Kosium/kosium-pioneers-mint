@@ -8,9 +8,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-import "./common/meta-transactions/ContentMixin.sol";
-import "./common/meta-transactions/NativeMetaTransaction.sol";
-
 contract OwnableDelegateProxy721 {}
 
 contract ProxyRegistry721 {
@@ -19,9 +16,9 @@ contract ProxyRegistry721 {
 
 /**
  * @title ERC721Tradable
- * ERC721Tradable - ERC721 contract that whitelists a trading address, and has minting functionality.
+ * ERC721Tradable - ERC721 contract that implements some basic ERC721 functionality.
  */
-abstract contract ERC721Tradable is ContextMixin, ERC721Enumerable, NativeMetaTransaction, Ownable {
+abstract contract ERC721Tradable is ERC721Enumerable, Ownable {
     using SafeMath for uint256;
 
     address proxyRegistryAddress;
@@ -35,11 +32,8 @@ abstract contract ERC721Tradable is ContextMixin, ERC721Enumerable, NativeMetaTr
 
     constructor(
         string memory _name,
-        string memory _symbol,
-        address _proxyRegistryAddress
+        string memory _symbol
     ) ERC721(_name, _symbol) {
-        proxyRegistryAddress = _proxyRegistryAddress;
-        _initializeEIP712(_name);
     }
 
     /**
@@ -75,10 +69,6 @@ abstract contract ERC721Tradable is ContextMixin, ERC721Enumerable, NativeMetaTr
         baseURI = newBaseURI;
     }
 
-    // function tokenURI(uint256 _tokenId) override public pure returns (string memory) {
-    //     return string(abi.encodePacked(_baseURI(), Strings.toString(_tokenId)));
-    // }
-
     /**
      * @dev See {IERC721Metadata-tokenURI}.
      */
@@ -86,35 +76,5 @@ abstract contract ERC721Tradable is ContextMixin, ERC721Enumerable, NativeMetaTr
         require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
 
         return string(abi.encodePacked(_baseURI(), Strings.toString(tokenId)));
-    }
-
-    /**
-     * Override isApprovedForAll to whitelist user's OpenSea proxy accounts to enable gas-less listings.
-     */
-    function isApprovedForAll(address owner, address operator)
-        override
-        public
-        view
-        returns (bool)
-    {
-        // Whitelist OpenSea proxy contract for easy trading.
-        ProxyRegistry721 proxyRegistry = ProxyRegistry721(proxyRegistryAddress);
-        if (address(proxyRegistry.proxies(owner)) == operator) {
-            return true;
-        }
-
-        return super.isApprovedForAll(owner, operator);
-    }
-
-    /**
-     * This is used instead of msg.sender as transactions won't be sent by the original token owner, but by OpenSea.
-     */
-    function _msgSender()
-        internal
-        override
-        view
-        returns (address sender)
-    {
-        return ContextMixin.msgSender();
     }
 }

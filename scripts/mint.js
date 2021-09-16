@@ -46,7 +46,7 @@ async function main() {
     const nftContract = new web3Instance.eth.Contract(
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
-      { gasLimit: "1000000" }
+      { gasLimit: "300000" }
     );
 
     // Pioneers issued directly to the owner.

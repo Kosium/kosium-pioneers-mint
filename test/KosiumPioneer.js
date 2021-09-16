@@ -17,12 +17,14 @@ contract("KosiumPioneer", (accounts) => {
         kosiumPioneer = await KosiumPioneer.deployed();
     });
 
-    it('should reserve a pioneer', async ()=>{
-        let reserveReturn = await kosiumPioneer.reservePioneers(40, {gas: 5000000});
+    it('should reserve pioneers', async ()=>{
+        let reserveReturn = await kosiumPioneer.reservePioneers(1, {gas: 5000000});
         assert(reserveReturn.hasOwnProperty('tx'));
         let addrOwner = await kosiumPioneer.ownerOf(0);
         // console.log('addrOwner: ', addrOwner);
         assert.equal(accounts[0], addrOwner);
+        let totalSupply = await kosiumPioneer.totalSupply();
+        assert.equal(totalSupply.words[0], 1);
     });
 
     it('should set base uri', async()=>{
@@ -35,7 +37,7 @@ contract("KosiumPioneer", (accounts) => {
     });
 
     it('should start the presale', async()=>{
-        await kosiumPioneer.whitelistAddressForPresale(accounts[0]);
+        await kosiumPioneer.whitelistAddressForPresale(accounts);
         let errHappened = false;
         try{
             let errMsg = await kosiumPioneer.mintPresalePioneer(1);
@@ -47,6 +49,8 @@ contract("KosiumPioneer", (accounts) => {
         await kosiumPioneer.flipPresaleState();
         let successMint = await kosiumPioneer.mintPresalePioneer(2,{value: 160000000000000000});
         assert(successMint.hasOwnProperty('tx'));
+        let totalSupply = await kosiumPioneer.totalSupply();
+        assert.equal(totalSupply.words[0], 3);
     });
 
     it('should start the sale', async()=>{
@@ -60,9 +64,11 @@ contract("KosiumPioneer", (accounts) => {
         }
         assert(errHappened);
         await kosiumPioneer.flipSaleState();
-        let successMint = await kosiumPioneer.mintPioneer(1,{value: 80000000000000000});
+        let successMint = await kosiumPioneer.mintPioneer(2,{value: 160000000000000000});
         // console.log('should be txn: ', successMint);
         assert(successMint.hasOwnProperty('tx'));
+        let totalSupply = await kosiumPioneer.totalSupply();
+        assert.equal(totalSupply.words[0], 5);
     });
 
     it('should withdraw the balance', async()=>{
@@ -72,6 +78,30 @@ contract("KosiumPioneer", (accounts) => {
 
         let balanceIncrease = balance - balanceBefore;
         expect(balanceIncrease).to.be.above(78000000000000000);
+    });
+    
+    it('should reserve more pioneers', async ()=>{
+        let reserveReturn = await kosiumPioneer.reservePioneers(1, {gas: 5000000});
+        assert(reserveReturn.hasOwnProperty('tx'));
+        let totalSupply = await kosiumPioneer.totalSupply();
+        assert.equal(totalSupply.words[0], 6);
+        let addrOwner = await kosiumPioneer.ownerOf(5);
+        // console.log('addrOwner: ', addrOwner);
+        assert.equal(accounts[0], addrOwner);
+        let numRes = await kosiumPioneer.numReserved.call();
+        assert.equal(numRes.words[0], 2);
+
+
+        // let failed = false;
+        // try{
+        //     await kosiumPioneer.mintPioneer(1,{value: 80000000000000000});
+        // } 
+        // catch(e){
+        //     failed = true;
+        // }
+        // assert(failed);
+        totalSupply = await kosiumPioneer.totalSupply();
+        assert.equal(totalSupply.words[0], 6);        
     });
 });
   

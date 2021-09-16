@@ -61,7 +61,7 @@ yarn truffle.cmd migrate --network rinkeby
 DEPLOYMENT
 WINDOWS 10 
 ```
-set MNEMONIC="drift cliff recipe speak question network proud hotel betray wool fire expose"
+set MNEMONIC="claim bar school system onion main card enrich method column symptom tissue"
 set DEPLOY_PIONEERS=1
 yarn truffle.cmd migrate --network development
 ```
