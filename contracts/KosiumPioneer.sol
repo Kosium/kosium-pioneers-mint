@@ -94,7 +94,6 @@ contract KosiumPioneer is ERC721Tradable {
     function mintPioneer(uint numberOfTokens) external userOnly {
         require(saleIsActive, "Sale must be active to mint Pioneer");//
         require(numberOfTokens + accountPledgesBought[msg.sender] <= accountPledges[msg.sender], "Cannot mint more tokens than pledged");
-        // require(totalSupply().add(numberOfTokens) <= MAX_PIONEERS - PIONEERS_RESERVED + numReserved - numPledged + numberOfTokens, "Purchase would exceed max supply of Pioneers");
         require(totalSupply() <= MAX_PIONEERS - PIONEERS_RESERVED + numReserved - numPledged, "Purchase would exceed max supply of Pioneers");
         
         for(uint i = 0; i < numberOfTokens; i++) {
