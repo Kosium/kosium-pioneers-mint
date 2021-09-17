@@ -6,6 +6,6 @@ const DEPLOY_PIONEERS = process.env.DEPLOY_PIONEERS;
 
 module.exports = async (deployer, network, addresses) => {
   if (DEPLOY_PIONEERS) {
-    await deployer.deploy(Pioneer, 10000, {gas: 5000000});
+    await deployer.deploy(Pioneer, 9999, {gas: 5000000});
   }  
 };

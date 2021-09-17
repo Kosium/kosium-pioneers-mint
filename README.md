@@ -61,7 +61,7 @@ yarn truffle.cmd migrate --network rinkeby
 DEPLOYMENT
 WINDOWS 10 
 ```
-set MNEMONIC="claim bar school system onion main card enrich method column symptom tissue"
+set MNEMONIC="turkey eager whisper seven essence abstract shell label over inherit guilt habit"
 set DEPLOY_PIONEERS=1
 yarn truffle.cmd migrate --network development
 ```
