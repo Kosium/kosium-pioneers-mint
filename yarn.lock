@@ -2227,6 +2227,14 @@
   dependencies:
     browser-headers "^0.4.1"
 
+"@imtbl/imx-contracts@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@imtbl/imx-contracts/-/imx-contracts-1.0.0.tgz#8936e8724aea6491eb874ad9f333b713be38bd82"
+  integrity sha512-vn/oIKF5QZbZrFgc99a858GWl493Z7jwNhYsNr0OS0vo/UNEs+rS9Zp5Hxlma7oTH6Kup0D8WHTUFxFXCNvJ5Q==
+  dependencies:
+    "@openzeppelin/contracts" "^4.1.0"
+    dotenv "^10.0.0"
+
 "@ledgerhq/devices@^4.78.0":
   version "4.78.0"
   resolved "https://registry.yarnpkg.com/@ledgerhq/devices/-/devices-4.78.0.tgz#149b572f0616096e2bd5eb14ce14d0061c432be6"
@@ -2370,6 +2378,11 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
+
+"@openzeppelin/contracts@^4.1.0":
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.3.3.tgz#ff6ee919fc2a1abaf72b22814bfb72ed129ec137"
+  integrity sha512-tDBopO1c98Yk7Cv/PZlHqrvtVjlgK5R4J6jxLwoO7qxK4xqOiZG+zSkIvGFpPZ0ikc3QOED3plgdqjgNTnBc7g==
 
 "@openzeppelin/contracts@^4.3.1":
   version "4.3.1"
@@ -7038,6 +7051,11 @@ dot-prop@^4.1.0:
   integrity sha512-l0p4+mIuJIua0mhxGoh4a+iNL9bmeK5DvnSVQa6T0OhrVmaEa1XScX5Etc673FePCJOArq/4Pa2cLGODUWTPOQ==
   dependencies:
     is-obj "^1.0.0"
+
+dotenv@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
+  integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
 
 dotignore@~0.1.2:
   version "0.1.2"

@@ -15,7 +15,7 @@ contract KosiumPioneer is ERC721Tradable {
 
     uint256 public maxPioneerPurchase = 2;
     uint256 public MAX_PIONEERS;
-    uint256 public constant pioneerPrice = 80000000000000000; //0.08 ETH
+    uint256 public constant pioneerPrice = 60000000000000000; //0.06 ETH
 
     bool public presaleIsActive = false;
     uint256 public MAX_PRESALE_PIONEERS = 2100;
@@ -32,9 +32,10 @@ contract KosiumPioneer is ERC721Tradable {
     uint256 public numPledged = 0;
 
     constructor(
-            uint256 maxNftSupply
+            uint256 maxNftSupply,
+            address _imx
         )
-        ERC721Tradable("Kosium Pioneer", "KPR")
+        ERC721Tradable("Kosium Pioneer", "KPR", _imx)
     {
         MAX_PIONEERS = maxNftSupply;
     }

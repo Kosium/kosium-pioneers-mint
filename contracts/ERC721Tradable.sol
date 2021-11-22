@@ -8,6 +8,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
+import "@imtbl/imx-contracts/contracts/Mintable.sol";
+
 contract OwnableDelegateProxy721 {}
 
 contract ProxyRegistry721 {
@@ -18,7 +20,7 @@ contract ProxyRegistry721 {
  * @title ERC721Tradable
  * ERC721Tradable - ERC721 contract that implements some basic ERC721 functionality.
  */
-abstract contract ERC721Tradable is ERC721Enumerable, Ownable {
+abstract contract ERC721Tradable is ERC721Enumerable, Ownable, IMintable {
     using SafeMath for uint256;
 
     address proxyRegistryAddress;
@@ -30,10 +32,23 @@ abstract contract ERC721Tradable is ERC721Enumerable, Ownable {
     // which can be also obtained as `IERC721Receiver(0).onERC721Received.selector`
     bytes4 private constant _ERC721_RECEIVED = 0x150b7a02;
 
+    address public imxAddress;
+
     constructor(
         string memory _name,
-        string memory _symbol
+        string memory _symbol,
+        address _imx
     ) ERC721(_name, _symbol) {
+        imxAddress = _imx;
+    }
+
+    modifier imxOnly{
+        require(msg.sender==imxAddress, "Only the designated Immutable X contract can call this function");
+        _;
+    }
+
+    function setImxAddress(address newAddr) public onlyOwner {
+        imxAddress = newAddr;
     }
 
     /**
@@ -44,6 +59,20 @@ abstract contract ERC721Tradable is ERC721Enumerable, Ownable {
         uint256 newTokenId = _getNextTokenId();
         _mint(_to, newTokenId);
         _incrementTokenId();
+    }
+
+    
+    /**
+     * Immutable X function for L2 Minting
+     * 
+     *
+     */
+    function mintFor(
+            address to,
+            uint256 quantity,
+            bytes calldata mintingBlob
+        ) external override imxOnly {
+        //
     }
 
     /**
