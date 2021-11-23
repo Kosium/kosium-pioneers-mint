@@ -53,7 +53,7 @@ WINDOWS 10
 set ALCHEMY_KEY=xZkLoVb57y4wBv6dPmjyqqa9hsqsu08c
 set MNEMONIC="island craft tell senior talk photo post fat tomorrow option harbor fame"
 set DEPLOY_PIONEERS=1
-yarn truffle.cmd migrate --network rinkeby
+yarn truffle.cmd migrate --reset --network rinkeby
 ```
 
 ## TESTING ON GANACHE LOCALLY
@@ -61,9 +61,10 @@ yarn truffle.cmd migrate --network rinkeby
 DEPLOYMENT
 WINDOWS 10 
 ```
-set MNEMONIC="turkey eager whisper seven essence abstract shell label over inherit guilt habit"
+set MNEMONIC="ginger chronic young double rural attract lobster royal rule erase snap bottom"
 set DEPLOY_PIONEERS=1
-yarn truffle.cmd migrate --network development
+//yarn truffle.cmd migrate --network development
+yarn truffle test
 ```
 
 ### Minting tokens.

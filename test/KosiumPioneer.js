@@ -6,7 +6,20 @@ let web3 = new Web3('ws://localhost:7545');
 const KosiumPioneer = artifacts.require(
     "../contracts/KosiumPioneer.sol"
 );
-  
+
+const pledgePriceEthTimesOneHundred = 6;
+
+const mintCost = function(numMint){
+    return pledgePriceEthTimesOneHundred * 10000000000000000 * numMint;
+}
+
+const underMintCost = function(numMint){
+    return mintCost(numMint) - 20000000000000000;
+}
+
+let numMinted = 0;
+let numReserved = 0;
+
 //need to test if MAX_PIONEERS are minted that it stops minting with correct error msg
   
 contract("KosiumPioneer", (accounts) => {
@@ -20,12 +33,15 @@ contract("KosiumPioneer", (accounts) => {
     });
 
     it('should reserve pioneers', async ()=>{
-        let reserveReturn = await kosiumPioneer.reservePioneers(1, {gas: 5000000});
+        let numToMint = 1;
+        let reserveReturn = await kosiumPioneer.reservePioneers(numToMint, {gas: 5000000});
+        numReserved += numToMint;
+        numMinted += numToMint;
         assert(reserveReturn.hasOwnProperty('tx'));
         let addrOwner = await kosiumPioneer.ownerOf(0);
         assert.equal(accounts[0], addrOwner);
         let totalSupply = await kosiumPioneer.totalSupply();
-        assert.equal(totalSupply.words[0], 1);
+        assert.equal(totalSupply.words[0], numMinted);
     });
 
     it('should set base uri', async()=>{
@@ -49,16 +65,18 @@ contract("KosiumPioneer", (accounts) => {
         }
         assert(errHappened);
         await kosiumPioneer.flipPresaleState();
-        let successMint = await kosiumPioneer.mintPresalePioneer(2,{value: 160000000000000000});
+        let numToMint = 2;
+        let successMint = await kosiumPioneer.mintPresalePioneer(numToMint,{value: mintCost(numToMint)});
+        numMinted += numToMint;
         assert(successMint.hasOwnProperty('tx'));
         let totalSupply = await kosiumPioneer.totalSupply();
-        assert.equal(totalSupply.words[0], 3);
+        assert.equal(totalSupply.words[0], numMinted);
     });
 
     it('should fail to mint more than max amount in presale', async()=>{
         let errHappened = false;
         try{
-            await kosiumPioneer.mintPresalePioneer(1,{value: 80000000000000000});
+            await kosiumPioneer.mintPresalePioneer(1,{value: mintCost(1)});
         }
         catch(e){
             //minting too many for presale
@@ -66,6 +84,17 @@ contract("KosiumPioneer", (accounts) => {
             errHappened = true;
         }
         assert(errHappened);
+    });
+
+    it('mint pioneers pure', async()=>{
+        await kosiumPioneer.flipSaleState();
+        await kosiumPioneer.setReserveLimit(2);
+        let numToMint = 1;
+        let successMint = await kosiumPioneer.mintPioneer(numToMint, {value: mintCost(numToMint)});
+        numMinted += numToMint;
+        assert(successMint.hasOwnProperty('tx'));
+        let totalSupply = await kosiumPioneer.totalSupply();
+        assert.equal(totalSupply.words[0], numMinted);
     });
 
     it('should remove from whitelist and then fail to mint presale pioneer', async()=>{
@@ -82,65 +111,10 @@ contract("KosiumPioneer", (accounts) => {
         assert(errHappened);
     });
 
-    it('should fail to pledge if sale is not active', async()=>{
-        let errHappened = false;
-        try{
-            let errMsg = await kosiumPioneer.pledge(1);
-        }
-        catch(e){
-            //sale not active
-            printError(e);
-            errHappened = true;
-        }
-        assert(errHappened);
-    });
-
-    it('should fail to pledge if <0.08 ETH per token price', async()=>{
-        await kosiumPioneer.setPurchaseLimit(5);
-        await kosiumPioneer.flipSaleState();
-        let errHappened = false;
-        try{
-            let errMsg = await kosiumPioneer.pledge(5,{value: 390000000000000000});
-        }
-        catch(e){
-            //price too low
-            printError(e);
-            errHappened = true;
-        }
-        assert(errHappened);
-    });
-    
-    it('should pledge for 5 pioneers', async()=>{
-        let successPledge = await kosiumPioneer.pledge(5,{value: 400000000000000000});
-        assert(successPledge.hasOwnProperty('tx'));
-        let pledges = await kosiumPioneer.accountPledges.call(accounts[0]);
-        assert.equal(pledges.words[0], 5);
-    });
-
-    it('mint pioneers', async()=>{
-        let successMint = await kosiumPioneer.mintPioneer(5);
-        assert(successMint.hasOwnProperty('tx'));
-        let totalSupply = await kosiumPioneer.totalSupply();
-        assert.equal(totalSupply.words[0], 8);
-    });
-
-    it('should fail to pledge than the max num pioneers per address', async()=>{
-        let failed = false;
-        try{
-            let successPledge = await kosiumPioneer.pledge(5,{value: 400000000000000000});
-        }
-        catch(e){
-            //too many to pledge
-            printError(e);
-            failed = true;
-        }
-        assert(failed);
-    });
-
     it('should fail to mint more than the max num pioneers per address', async()=>{
         let failed = false;
         try{
-            let successMint = await kosiumPioneer.mintPioneer(5);
+            let successMint = await kosiumPioneer.mintPioneer(6);
         }
         catch(e){
             //to many to mint
@@ -156,15 +130,19 @@ contract("KosiumPioneer", (accounts) => {
         let balance = await web3.eth.getBalance(accounts[0]);//instance.address);
 
         let balanceIncrease = balance - balanceBefore;
-        expect(balanceIncrease).to.be.above(78000000000000000 * 5);
+        let numBought = numMinted - numReserved;
+        expect(balanceIncrease).to.be.above(underMintCost(numBought));
     });
     
     it('should reserve more pioneers', async ()=>{
-        let reserveReturn = await kosiumPioneer.reservePioneers(1, {gas: 5000000});
+        let numMinting = 1;
+        let reserveReturn = await kosiumPioneer.reservePioneers(numMinting, {gas: 5000000});
+        numReserved += numMinting;
+        numMinted += numMinting;
         assert(reserveReturn.hasOwnProperty('tx'));
         let totalSupply = await kosiumPioneer.totalSupply();
-        assert.equal(totalSupply.words[0], 9);
-        let addrOwner = await kosiumPioneer.ownerOf(5);
+        assert.equal(totalSupply.words[0], numMinted);
+        let addrOwner = await kosiumPioneer.ownerOf(numMinted - 1);
         assert.equal(accounts[0], addrOwner);
         let numRes = await kosiumPioneer.numReserved.call();
         assert.equal(numRes.words[0], 2);  
@@ -174,19 +152,6 @@ contract("KosiumPioneer", (accounts) => {
         let failed = false;
         try{
             let reserveReturn = await kosiumPioneer.reservePioneers(10, {gas: 5000000});
-        }
-        catch(e){
-            //to many to mint
-            printError(e);
-            failed = true;
-        }
-        assert(failed);
-    });
-
-    it('should fail to pledge more pioneers in sale', async()=>{
-        let failed = false;
-        try{
-            let successPledge = await kosiumPioneer.pledge(5,{value: 400000000000000000, from: accounts[1]});
         }
         catch(e){
             //to many to mint

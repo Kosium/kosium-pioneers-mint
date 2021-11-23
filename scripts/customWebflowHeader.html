@@ -49,14 +49,14 @@
       // var gasLimit = block.gasLimit/block.transactions.length;
       const nftContract = new web3Instance.eth.Contract(
         NFT_ABI,
-        '0xdF19371513fA8b859E21b854f008ffC158dFEefb',
+        '0xDB7954b3698461631fD07C6A8D402C7Ba6613F2e',
         { gasLimit: 300000}// toString(gasLimit) }
       );
       console.log('minting presale pioneer sending');
       //web3.eth.getTransactionCount(ethAddress) //can get txn count and increment for nonce
       const result = await nftContract.methods
       .mintPresalePioneer(numToMint)
-      .send({ from: ethereum.selectedAddress, value: 80000000000000000*numToMint });
+      .send({ from: ethereum.selectedAddress, value: 60000000000000000*numToMint });
       console.log('done minting');
       
     } else {
