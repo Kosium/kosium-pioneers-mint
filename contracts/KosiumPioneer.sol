@@ -12,13 +12,13 @@ contract KosiumPioneer is ERC721Tradable {
     using SafeMath for uint256;
 
     bool public saleIsActive = false;
+    bool public presaleIsActive = false;
 
     uint256 public maxPioneerPurchase = 5;
     uint256 public maxPioneerPurchasePresale = 2;
-    uint256 public MAX_PIONEERS;
     uint256 public constant pioneerPrice = 60000000000000000; //0.06 ETH
 
-    bool public presaleIsActive = false;
+    uint256 public MAX_PIONEERS;
     uint256 public MAX_PRESALE_PIONEERS = 2000;
     uint256 public PIONEERS_RESERVED = 1000;
 
@@ -48,7 +48,7 @@ contract KosiumPioneer is ERC721Tradable {
     /**
      * Mints numToMint tokens to an address
     */
-    function mintTo(address _to, uint numToMint) public onlyOwner {
+    function mintTo(address _to, uint numToMint) external onlyOwner {
         require(numReserved + numToMint <= PIONEERS_RESERVED, "Reserving would exceed max number of Pioneers to reserve");
         require(totalSupply().add(numToMint) <= MAX_PIONEERS, "Reserving would exceed max number of Pioneers to reserve");
         

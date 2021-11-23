@@ -44,6 +44,16 @@ contract("KosiumPioneer", (accounts) => {
         assert.equal(totalSupply.words[0], numMinted);
     });
 
+    it('should mint to a different address', async()=>{
+        let numToMintTo = 2;
+        await kosiumPioneer.mintTo(accounts[1], numToMintTo);
+        numMinted += numToMintTo;
+        let totalSupply = await kosiumPioneer.totalSupply();
+        let addrOwner = await kosiumPioneer.ownerOf(totalSupply - 1);
+        assert.equal(accounts[1], addrOwner);
+        assert.equal(totalSupply.words[0], numMinted);
+    });
+
     it('should set base uri', async()=>{
         let baseUri = 'ipfs://QmdrX4RFbkmt2uhTA1ETPrQoJqtS1yiXA1qop2j3Mzt64T/';
         await kosiumPioneer.setBaseTokenURI(baseUri);

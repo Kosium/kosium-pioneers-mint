@@ -84,7 +84,7 @@ WINDOWS 10 Running Scripts with Rinkeby Deployment
 set ALCHEMY_KEY=xZkLoVb57y4wBv6dPmjyqqa9hsqsu08c
 set MNEMONIC="island craft tell senior talk photo post fat tomorrow option harbor fame"
 set OWNER_ADDRESS=0x7390ceF3391A2E2079D74E8fFd8EFEF478e1b793
-set NFT_CONTRACT_ADDRESS=0xdF19371513fA8b859E21b854f008ffC158dFEefb
+set NFT_CONTRACT_ADDRESS=0xDB7954b3698461631fD07C6A8D402C7Ba6613F2e
 set NETWORK=rinkeby
 node scripts/setBaseUri.js
 ```
@@ -106,36 +106,6 @@ If you're running a modified version of `sell.js` and not getting expected behav
 - Do you have any conflicts that result from globally installed node packages? If yes, try `yarn remove -g truffle; yarn`
 
 - Are you running a version of node compliant with the `engines` requirement in `package.json`? If no, try `nvm use; rm -rf node_modules; yarn`
-
-# About OpenSea Creature Accessories
-
-This is a sample ERC-1155 contract for the purposes of demonstrating integration with the [OpenSea](https://opensea.io) marketplace for crypto collectibles. We also include:
-
-- A factory contract for making sell orders for unminted items (allowing for **gas-free and mint-free presales**).
-- A configurable lootbox contract for selling randomized collections of ERC-1155 items.
-
-On top of the features from the OpenSea ERC721 sample contracts above, ERC1155
-
-- supports multiple creators per contract, where only the creator is able to mint more copies
-- supports pre-minted items for the lootbox to choose from
-
-## Configuring the Lootbox
-
-Open CreatureAccessoryLootbox.sol
-
-1. Change `Class` to reflect your rarity levels.
-2. Change `NUM_CLASSES` to reflect how many classes you have (this gets used for sizing fixed-length arrays in Solidity)
-3. In `constructor`, set the `OptionSettings` for each of your classes. To do this, as in the example, call `setOptionSettings` with
-   1. Your option id,
-   2. The number of items to issue when the box is opened,
-   3. An array of probabilities (basis points, so integers out of 10,000) of receiving each class. Should add up to 10k and be descending in value.
-4. Then follow the instructions below to deploy it! Purchases will auto-open the box. If you'd like to make lootboxes tradable by users (without a purchase auto-opening it), contact us at contact@opensea.io (or better yet, in [Discord](https://discord.gg/ga8EJbv)).
-
-## Why are some standard methods overridden?
-
-This contract overrides the `isApprovedForAll` method in order to whitelist the proxy accounts of OpenSea users. This means that they are automatically able to trade your ERC-1155 items on OpenSea (without having to pay gas for an additional approval). On OpenSea, each user has a "proxy" account that they control, and is ultimately called by the exchange contracts to trade their items.
-
-Note that this addition does not mean that OpenSea itself has access to the items, simply that the users can list them more easily if they wish to do so!
 
 # Requirements
 

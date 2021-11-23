@@ -21,13 +21,7 @@ contract ProxyRegistry721 {
 abstract contract ERC721Tradable is ERC721Enumerable, Ownable {
     using SafeMath for uint256;
 
-    address proxyRegistryAddress;
-
     string public baseURI;
-
-    // Equals to `bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))`
-    // which can be also obtained as `IERC721Receiver(0).onERC721Received.selector`
-    bytes4 private constant _ERC721_RECEIVED = 0x150b7a02;
 
     constructor(
         string memory _name,

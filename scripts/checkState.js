@@ -134,20 +134,20 @@ async function main() {
       .call().call();
     console.log("Presale is active = " + result2);
     
-    // const result3 = await nftContract.methods
-    //   .tokenURI(3)
-    //   .call({ from: OWNER_ADDRESS });
-    // console.log("Token 0 uri = " + result3);
+    const result3 = await nftContract.methods
+      .tokenURI(0)
+      .call({ from: OWNER_ADDRESS });
+    console.log("Token 0 uri = " + result3);
     
     const result4 = await nftContract.methods
       .totalSupply()
       .call({ from: OWNER_ADDRESS });
     console.log("Total supply = " + result4);
     
-    // const result5 = await nftContract.methods
-    //   .tokenOfOwnerByIndex(OWNER_ADDRESS, 5)
-    //   .call({ from: OWNER_ADDRESS });
-    // console.log("tokenId 6th token owned by me indexed = " + result5);
+    const result5 = await nftContract.methods
+      .tokenOfOwnerByIndex(OWNER_ADDRESS, 0)
+      .call({ from: OWNER_ADDRESS });
+    console.log("tokenId nth token owned by me indexed = " + result5);
   } else {
     console.error(
       "Add NFT_CONTRACT_ADDRESS or FACTORY_CONTRACT_ADDRESS to the environment variables"
