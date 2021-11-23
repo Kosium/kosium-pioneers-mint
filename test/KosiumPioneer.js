@@ -48,6 +48,7 @@ contract("KosiumPioneer", (accounts) => {
         let numToMintTo = 2;
         await kosiumPioneer.mintTo(accounts[1], numToMintTo);
         numMinted += numToMintTo;
+        numReserved += numToMintTo;
         let totalSupply = await kosiumPioneer.totalSupply();
         let addrOwner = await kosiumPioneer.ownerOf(totalSupply - 1);
         assert.equal(accounts[1], addrOwner);
@@ -98,7 +99,7 @@ contract("KosiumPioneer", (accounts) => {
 
     it('mint pioneers pure', async()=>{
         await kosiumPioneer.flipSaleState();
-        await kosiumPioneer.setReserveLimit(2);
+        await kosiumPioneer.setReserveLimit(numReserved + 1);
         let numToMint = 1;
         let successMint = await kosiumPioneer.mintPioneer(numToMint, {value: mintCost(numToMint)});
         numMinted += numToMint;
@@ -155,7 +156,7 @@ contract("KosiumPioneer", (accounts) => {
         let addrOwner = await kosiumPioneer.ownerOf(numMinted - 1);
         assert.equal(accounts[0], addrOwner);
         let numRes = await kosiumPioneer.numReserved.call();
-        assert.equal(numRes.words[0], 2);  
+        assert.equal(numRes.words[0], numReserved);  
     });
 
     it('should fail to reserve more pioneers', async()=>{

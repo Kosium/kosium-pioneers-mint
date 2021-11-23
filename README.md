@@ -61,7 +61,7 @@ yarn truffle.cmd migrate --reset --network rinkeby
 DEPLOYMENT
 WINDOWS 10 
 ```
-set MNEMONIC="ginger chronic young double rural attract lobster royal rule erase snap bottom"
+set MNEMONIC="guilt dream motor apple worth random actual multiply say stage october unfair"
 set DEPLOY_PIONEERS=1
 //yarn truffle.cmd migrate --network development
 yarn truffle test
