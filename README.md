@@ -61,9 +61,15 @@ yarn truffle.cmd migrate --reset --network rinkeby
 DEPLOYMENT
 WINDOWS 10 
 ```
-set MNEMONIC="guilt dream motor apple worth random actual multiply say stage october unfair"
+set MNEMONIC="rural era subject extend dry music mixture neglect hollow draft episode control"
 set DEPLOY_PIONEERS=1
 //yarn truffle.cmd migrate --network development
+yarn truffle test
+```
+
+```sh
+export MNEMONIC="<your-mnemonic-from-ganache-cli-here>"
+export DEPLOY_PIONEERS=1
 yarn truffle test
 ```
 

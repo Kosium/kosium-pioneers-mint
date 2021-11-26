@@ -34,7 +34,7 @@ contract("KosiumPioneer", (accounts) => {
 
     it('should reserve pioneers', async ()=>{
         let numToMint = 1;
-        let reserveReturn = await kosiumPioneer.reservePioneers(numToMint, {gas: 5000000});
+        let reserveReturn = await kosiumPioneer.reservePioneers(accounts[0], numToMint, {gas: 5000000});
         numReserved += numToMint;
         numMinted += numToMint;
         assert(reserveReturn.hasOwnProperty('tx'));
@@ -46,7 +46,7 @@ contract("KosiumPioneer", (accounts) => {
 
     it('should mint to a different address', async()=>{
         let numToMintTo = 2;
-        await kosiumPioneer.mintTo(accounts[1], numToMintTo);
+        await kosiumPioneer.reservePioneers(accounts[1], numToMintTo);
         numMinted += numToMintTo;
         numReserved += numToMintTo;
         let totalSupply = await kosiumPioneer.totalSupply();
@@ -147,7 +147,7 @@ contract("KosiumPioneer", (accounts) => {
     
     it('should reserve more pioneers', async ()=>{
         let numMinting = 1;
-        let reserveReturn = await kosiumPioneer.reservePioneers(numMinting, {gas: 5000000});
+        let reserveReturn = await kosiumPioneer.reservePioneers(accounts[0], numMinting, {gas: 5000000});
         numReserved += numMinting;
         numMinted += numMinting;
         assert(reserveReturn.hasOwnProperty('tx'));
@@ -162,7 +162,7 @@ contract("KosiumPioneer", (accounts) => {
     it('should fail to reserve more pioneers', async()=>{
         let failed = false;
         try{
-            let reserveReturn = await kosiumPioneer.reservePioneers(10, {gas: 5000000});
+            let reserveReturn = await kosiumPioneer.reservePioneers(accounts[0], 10, {gas: 5000000});
         }
         catch(e){
             //to many to mint
