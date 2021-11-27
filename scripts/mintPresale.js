@@ -52,7 +52,7 @@ async function main() {
     // Pioneers issued directly to the owner.
     const result = await nftContract.methods
       .mintPresalePioneer(1)
-      .send({ from: OWNER_ADDRESS, value: 80000000000000000 });
+      .send({ from: OWNER_ADDRESS, value: 60000000000000000 });
     console.log("Minted presale pioneer. Transaction: " + result.transactionHash);
   } else {
     console.error(
