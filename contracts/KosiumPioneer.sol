@@ -16,7 +16,7 @@ contract KosiumPioneer is ERC721Tradable {
 
     uint256 public maxPioneerPurchase = 5;
     uint256 public maxPioneerPurchasePresale = 2;
-    uint256 public constant pioneerPrice = 0.06 ether;//60000000000000000; //0.06 ETH
+    uint256 public constant pioneerPrice = 0.06 ether;
 
     uint256 public MAX_PIONEERS;
     uint256 public MAX_PRESALE_PIONEERS = 2000;
@@ -50,7 +50,7 @@ contract KosiumPioneer is ERC721Tradable {
      * Mints numToMint tokens to an address
     */
     function mintTo(address _to, uint numToMint) internal {
-        require(totalSupply().add(numToMint) <= MAX_PIONEERS, "Reserving would exceed max number of Pioneers to reserve");
+        require(numMinted + numToMint <= MAX_PIONEERS, "Reserving would exceed max number of Pioneers to reserve");
         
         for (uint i = 0; i < numToMint; i++) {
             _safeMint(_to, numMinted);
@@ -132,7 +132,7 @@ contract KosiumPioneer is ERC721Tradable {
     * Change the max presale limit
     */
     function setPresaleLimit(uint maxToPresale) public onlyOwner{
-        require(maxToPresale >= 0, "Presale supply cannot be negative");
+        require(maxToPresale <= MAX_PIONEERS, "Presale limit cannot be greater than the max supply of Pioneers.");
         MAX_PRESALE_PIONEERS = maxToPresale;
     }
 
@@ -140,7 +140,7 @@ contract KosiumPioneer is ERC721Tradable {
     * Change the reserved number of Pioneers
     */
     function setReserveLimit(uint reservedLimit) public onlyOwner{
-        require(reservedLimit >= 0, "Reserve supply cannot be negative");
+        require(reservedLimit <= MAX_PIONEERS, "Reserve supply cannot be greater than the max supply of Pioneers.");
         PIONEERS_RESERVED = reservedLimit;
     }
 
@@ -148,7 +148,6 @@ contract KosiumPioneer is ERC721Tradable {
     * Change the max number of pioneers each account can purchase at a time in the open sale
     */
     function setPurchaseLimit(uint purchaseLimit) public onlyOwner{
-        require(purchaseLimit >= 0, "The max number of pioneers to purchase for each account cannot be negative.");
         require(purchaseLimit <= MAX_PIONEERS, "The max number of pioneers to purchase for each account cannot be greater than the maximum number of Pioneers.");
         maxPioneerPurchase = purchaseLimit;
     }
@@ -157,7 +156,6 @@ contract KosiumPioneer is ERC721Tradable {
     * Change the max number of pioneers each account can purchase at a time in the presale
     */
     function setPurchaseLimitPresale(uint purchaseLimit) public onlyOwner{
-        require(purchaseLimit >= 0, "The max number of pioneers to purchase for each account cannot be negative.");
         require(purchaseLimit <= MAX_PIONEERS, "The max number of pioneers to purchase for each account cannot be greater than the maximum number of Pioneers.");
         maxPioneerPurchasePresale = purchaseLimit;
     }

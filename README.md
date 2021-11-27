@@ -1,18 +1,4 @@
-## OpenSea Creatures - Starter ERC721, ERC1155, and factory contracts
-
-What's included:
-
-### Sample ERC721/ERC1155 Contracts
-
-This includes a very simple sample ERC721 / ERC1155 for the purposes of demonstrating integration with the [OpenSea](https://opensea.io) marketplace. We include a script for minting the items.
-
-Additionally, this contract whitelists the proxy accounts of OpenSea users so that they are automatically able to trade the ERC721 item on OpenSea (without having to pay gas for an additional approval). On OpenSea, each user has a "proxy" account that they control, and is ultimately called by the exchange contracts to trade their items. (Note that this addition does not mean that OpenSea itself has access to the items, simply that the users can list them more easily if they wish to do so)
-
-### Factory Contracts
-
-In addition to these template 721/1155 contracts, we provide sample factory contracts for running gas-free presales of items that haven't been minted yet. See https://docs.opensea.io/docs/opensea-initial-item-sale-tutorial for more info.
-
-## Requirements
+## KOSIUM PIONEERS MINT ERC721
 
 ### Node version
 
@@ -60,12 +46,9 @@ yarn truffle.cmd migrate --reset --network rinkeby
 
 DEPLOYMENT
 WINDOWS 10 
-```
-set MNEMONIC="rural era subject extend dry music mixture neglect hollow draft episode control"
-set DEPLOY_PIONEERS=1
+cd to test
+start truffleTest.bat
 //yarn truffle.cmd migrate --network development
-yarn truffle test
-```
 
 ```sh
 export MNEMONIC="<your-mnemonic-from-ganache-cli-here>"
@@ -97,7 +80,7 @@ node scripts/setBaseUri.js
 
 ### Diagnosing Common Issues
 
-If you're running a modified version of `sell.js` and not getting expected behavior, check the following:
+If you're not getting expected behavior, check the following:
 
 - Is the `expirationTime` in future? If no, change it to a time in the future.
 
@@ -173,10 +156,6 @@ You can also debug just the compile step by running `yarn truffle compile`.
 #### It doesn't deploy anything!
 
 This is often due to the truffle-hdwallet provider not being able to connect. Go to your [Alchemy Dashboard](https://dashboard.alchemyapi.io/signup?referral=affiliate:e535c3c3-9bc4-428f-8e27-4b70aa2e8ca5) (or infura.io) and create a new project. Use your "project ID" as your new `ALCHEMY_KEY` and make sure you export that command-line variable above.
-
-### ERC1155 Implementation
-
-To implement the ERC1155 standard, these contracts use the Multi Token Standard by [Horizon Games](https://horizongames.net/), available on [npm](https://www.npmjs.com/package/multi-token-standard) and [github](https://github.com/arcadeum/multi-token-standard) and also under the MIT License.
 
 # Running Local Tests
 
