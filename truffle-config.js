@@ -72,8 +72,9 @@ module.exports = {
       provider: function () {
         return new HDWalletProvider({mnemonic: {phrase: MNEMONIC}, providerOrUrl: mainnetNodeUrl});
       },
-      gas: 5000000,
-      gasPrice: 5000000000,
+      gas: 4000000,
+      gasPrice: 150000000000,
+      from: "0x62bb848ec84D08d55Ea70a19118300bae6658F18"
     },
   },
   mocha: {
@@ -89,7 +90,7 @@ module.exports = {
       settings: {
         optimizer: {
           enabled: true,
-          runs: 20   // Optimize for how many times you intend to run the code
+          runs: 200   // Optimize for how many times you intend to run the code
         },
       },
     },
