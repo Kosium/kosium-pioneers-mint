@@ -46,13 +46,15 @@ async function main() {
     const nftContract = new web3Instance.eth.Contract(
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
-      { gasLimit: "2000000" }
+      { gasLimit: "300000" }
     );
 
+    let numToMint = 1;
     // Pioneers issued directly to the owner.
+    console.log('Minting ', numToMint, ' Pioneers. Please wait for confirmation.');
     const result = await nftContract.methods
-      .mintPresalePioneer(1)
-      .send({ from: OWNER_ADDRESS, value: 60000000000000000 });
+      .mintPresalePioneer(numToMint)
+      .send({ from: OWNER_ADDRESS, value: numToMint * 60000000000000000 });
     console.log("Minted presale pioneer. Transaction: " + result.transactionHash);
   } else {
     console.error(

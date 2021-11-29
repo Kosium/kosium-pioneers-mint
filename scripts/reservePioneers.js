@@ -6,6 +6,7 @@ const isInfura = !!process.env.INFURA_KEY;
 const NFT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS;
 const OWNER_ADDRESS = process.env.OWNER_ADDRESS;
 const NETWORK = process.env.NETWORK;
+const MINT_TO_ADDRESS = process.env.MINT_TO_ADDRESS;
 
 if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
   console.error(
@@ -19,13 +20,16 @@ const NFT_ABI = [
     constant: false,
     inputs: [
       {
-        name: "numberToReserve",
+        name: "_to",
+        type: "address",
+      },
+      {
+        name: "numToMint",
         type: "uint256",
       },
     ],
     name: "reservePioneers",
     outputs: [],
-    payable: true,
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -46,14 +50,15 @@ async function main() {
     const nftContract = new web3Instance.eth.Contract(
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
-      { gasLimit: "5000000" }
+      { gasLimit: "300000" }
     );
 
     // Pioneers issued directly to the owner.
+    console.log('Minting to. Please wait for confirmation.');
     const result = await nftContract.methods
-      .reservePioneers(1)
-      .send({ from: OWNER_ADDRESS });
-    console.log("Pioneers reserved. Transaction: " + result.transactionHash);
+      .reservePioneers('0xf82d87ba0b79c200FfC8a9D1e4f0E360198d0Ec9', 4)
+      .send({ from: OWNER_ADDRESS});
+    console.log("Minted pioneer. Transaction: " + JSON.stringify(result));//.transactionHash);
   } else {
     console.error(
       "Add NFT_CONTRACT_ADDRESS or FACTORY_CONTRACT_ADDRESS to the environment variables"

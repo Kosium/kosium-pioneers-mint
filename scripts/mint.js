@@ -49,11 +49,13 @@ async function main() {
       { gasLimit: "300000" }
     );
 
+    let numToMint = 5;
     // Pioneers issued directly to the owner.
+    console.log('Minting ', numToMint, ' Pioneers. Please wait for confirmation.');
     const result = await nftContract.methods
-      .mintPioneer(2)
-      .send({ from: OWNER_ADDRESS, value: 120000000000000000 });
-    console.log("Minted pioneer. Transaction: " + JSON.stringify(result));//.transactionHash);
+      .mintPioneer(numToMint)
+      .send({ from: OWNER_ADDRESS, value: numToMint * 60000000000000000 });
+    console.log("Minted Pioneer. Transaction: " + JSON.stringify(result));//.transactionHash);
   } else {
     console.error(
       "Add NFT_CONTRACT_ADDRESS or FACTORY_CONTRACT_ADDRESS to the environment variables"

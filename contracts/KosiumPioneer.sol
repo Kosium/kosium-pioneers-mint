@@ -2,14 +2,19 @@
 
 pragma solidity ^0.8.0;
 
-import "./ERC721Tradable.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 /**
  * @title KosiumPioneer
  * KosiumPioneer - a contract for my non-fungible creatures.
  */
-contract KosiumPioneer is ERC721Tradable {
+contract KosiumPioneer is ERC721, Ownable {
     using SafeMath for uint256;
+    
+    string public baseURI;
 
     bool public saleIsActive = false;
     bool public presaleIsActive = false;
@@ -31,7 +36,7 @@ contract KosiumPioneer is ERC721Tradable {
     constructor(
             uint256 maxNftSupply
         )
-        ERC721Tradable("Kosium Pioneer", "KPR")
+        ERC721("Kosium Pioneer", "KPR")
     {
         MAX_PIONEERS = maxNftSupply;
     }
@@ -44,6 +49,20 @@ contract KosiumPioneer is ERC721Tradable {
     function withdraw() external onlyOwner {
         uint balance = address(this).balance;
         payable(msg.sender).transfer(balance);
+    }
+
+    /**
+     * Returns base uri for token metadata. Called in ERC721 tokenURI(tokenId)
+    */
+    function _baseURI() internal view virtual override returns (string memory) {
+        return baseURI;
+    }
+
+    /**
+     * Changes URI used to get token metadata
+    */
+    function setBaseTokenURI(string memory newBaseURI) public onlyOwner {
+        baseURI = newBaseURI;
     }
 
     /**

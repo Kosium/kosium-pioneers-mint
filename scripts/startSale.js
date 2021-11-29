@@ -42,9 +42,10 @@ async function main() {
     const nftContract = new web3Instance.eth.Contract(
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
-      { gasLimit: "2000000" }
+      { gasLimit: "100000" }
     );
 
+    console.log('Flipping Sale State. Please wait for confirmation.');
     const result = await nftContract.methods
       .flipSaleState()
       .send({ from: OWNER_ADDRESS });
