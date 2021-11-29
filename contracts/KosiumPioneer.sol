@@ -160,7 +160,7 @@ contract KosiumPioneer is ERC721, Ownable {
     */
     function setReserveLimit(uint reservedLimit) public onlyOwner{
         require(reservedLimit <= MAX_PIONEERS, "Reserve supply cannot be greater than the max supply of Pioneers.");
-        require(numReserved <= PIONEERS_RESERVED, "Reserve supply cannot be less than the number of Pioneers already reserved.");
+        require(numReserved <= reservedLimit, "Reserve supply cannot be less than the number of Pioneers already reserved.");
         require(reservedLimit < PIONEERS_RESERVED, "Can only reduce the number of Pioneers reserved.");
         PIONEERS_RESERVED = reservedLimit;
     }
