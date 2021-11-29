@@ -7,6 +7,6 @@ const MAX_PIONEERS = process.env.MAX_PIONEERS;
 
 module.exports = async (deployer, network, addresses) => {
   if (DEPLOY_PIONEERS) {
-    await deployer.deploy(Pioneer, MAX_PIONEERS, {gas: 5000000});
+    await deployer.deploy(Pioneer, MAX_PIONEERS, {gas: 3500000});
   }  
 };
