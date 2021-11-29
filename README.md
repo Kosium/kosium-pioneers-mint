@@ -73,7 +73,7 @@ WINDOWS 10 Running Scripts with Rinkeby Deployment
 set ALCHEMY_KEY=xZkLoVb57y4wBv6dPmjyqqa9hsqsu08c
 set MNEMONIC="island craft tell senior talk photo post fat tomorrow option harbor fame"
 set OWNER_ADDRESS=0x7390ceF3391A2E2079D74E8fFd8EFEF478e1b793
-set NFT_CONTRACT_ADDRESS=0xDB7954b3698461631fD07C6A8D402C7Ba6613F2e
+set NFT_CONTRACT_ADDRESS=0x23a8784654796Df7C37c016381707821a763e785
 set NETWORK=rinkeby
 node scripts/setBaseUri.js
 ```

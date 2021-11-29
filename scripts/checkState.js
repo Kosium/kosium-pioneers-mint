@@ -67,35 +67,16 @@ const NFT_ABI = [
   {
     constant: false,
     inputs: [
-    ],
-    name: "totalSupply",
-    outputs: [
-        {
-            name: '',
-            type: 'uint256'
-        }
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-        {
-            name: "owner",
-            type: 'address'
-        },
         {
             name: 'index',
             type: 'uint256'
         }
     ],
-    name: "tokenOfOwnerByIndex",
+    name: "ownerOf",
     outputs: [
         {
-            name: '',
-            type: 'uint256'
+            name: 'owner',
+            type: 'address'
         }
     ],
     payable: false,
@@ -119,7 +100,7 @@ async function main() {
     const nftContract = new web3Instance.eth.Contract(
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
-      { gasLimit: "1000000" }
+      { gasLimit: "100000" }
     );
 
     const result = await nftContract.methods
@@ -139,13 +120,8 @@ async function main() {
       .call({ from: OWNER_ADDRESS });
     console.log("Token 0 uri = " + result3);
     
-    const result4 = await nftContract.methods
-      .totalSupply()
-      .call({ from: OWNER_ADDRESS });
-    console.log("Total supply = " + result4);
-    
     const result5 = await nftContract.methods
-      .tokenOfOwnerByIndex(OWNER_ADDRESS, 0)
+      .ownerOf(0)
       .call({ from: OWNER_ADDRESS });
     console.log("tokenId nth token owned by me indexed = " + result5);
   } else {

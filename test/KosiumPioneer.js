@@ -144,8 +144,6 @@ contract("KosiumPioneer", (accounts) => {
         assert(reserveReturn.hasOwnProperty('tx'));
         let addrOwner = await kosiumPioneer.ownerOf(0);
         assert.equal(accounts[0], addrOwner);
-        let totalSupply = await kosiumPioneer.totalSupply();
-        assert.equal(totalSupply.words[0], numMinted);
         let numMintedInContract = await kosiumPioneer.numMinted();
         assert.equal(numMintedInContract.words[0], numMinted);
     });
@@ -155,10 +153,8 @@ contract("KosiumPioneer", (accounts) => {
         await kosiumPioneer.reservePioneers(accounts[1], numToMintTo);
         numMinted += numToMintTo;
         numReserved += numToMintTo;
-        let totalSupply = await kosiumPioneer.totalSupply();
-        let addrOwner = await kosiumPioneer.ownerOf(totalSupply - 1);
+        let addrOwner = await kosiumPioneer.ownerOf(numMinted - 1);
         assert.equal(accounts[1], addrOwner);
-        assert.equal(totalSupply.words[0], numMinted);
         let numMintedInContract = await kosiumPioneer.numMinted();
         assert.equal(numMintedInContract.words[0], numMinted);
     });
@@ -228,8 +224,6 @@ contract("KosiumPioneer", (accounts) => {
         let successMint = await kosiumPioneer.mintPresalePioneer(numToMint,{value: mintCost(numToMint)});
         numMinted += numToMint;
         assert(successMint.hasOwnProperty('tx'));
-        let totalSupply = await kosiumPioneer.totalSupply();
-        assert.equal(totalSupply.words[0], numMinted);
         let numMintedInContract = await kosiumPioneer.numMinted();
         assert.equal(numMintedInContract.words[0], numMinted);
     });
@@ -305,8 +299,6 @@ contract("KosiumPioneer", (accounts) => {
         let successMint = await kosiumPioneer.mintPioneer(numToMint, {value: mintCost(numToMint)});
         numMinted += numToMint;
         assert(successMint.hasOwnProperty('tx'));
-        let totalSupply = await kosiumPioneer.totalSupply();
-        assert.equal(totalSupply.words[0], numMinted);
         let numMintedInContract = await kosiumPioneer.numMinted();
         assert.equal(numMintedInContract.words[0], numMinted);
     });
@@ -354,8 +346,6 @@ contract("KosiumPioneer", (accounts) => {
         numReserved += numMinting;
         numMinted += numMinting;
         assert(reserveReturn.hasOwnProperty('tx'));
-        let totalSupply = await kosiumPioneer.totalSupply();
-        assert.equal(totalSupply.words[0], numMinted);
         let numMintedInContract = await kosiumPioneer.numMinted();
         assert.equal(numMintedInContract.words[0], numMinted);
         let addrOwner = await kosiumPioneer.ownerOf(numMinted - 1);

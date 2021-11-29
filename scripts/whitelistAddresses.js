@@ -53,9 +53,10 @@ async function main() {
     const nftContract = new web3Instance.eth.Contract(
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
-      { gasLimit: "1000000" }
+      { gasLimit: "300000" }
     );
 
+    console.log('Whitelisting Addresses. Please wait for confirmation.');
     const result = await nftContract.methods
       .whitelistAddressForPresale(addressesToWhiteList)
       .send({ from: OWNER_ADDRESS });

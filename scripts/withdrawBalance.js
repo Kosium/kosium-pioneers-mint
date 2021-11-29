@@ -42,9 +42,10 @@ async function main() {
     const nftContract = new web3Instance.eth.Contract(
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
-      { gasLimit: "1000000" }
+      { gasLimit: "100000" }
     );
 
+    console.log('Withdrawing Balance. Please wait for confirmation.');
     const result = await nftContract.methods
       .withdraw()
       .send({ from: OWNER_ADDRESS });

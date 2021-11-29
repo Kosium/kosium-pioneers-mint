@@ -1,6 +1,6 @@
 E:
 cd E:/a_Repos/a_allkosium/kosium-pioneers-mint
-set MNEMONIC="rural era subject extend dry music mixture neglect hollow draft episode control"
+set MNEMONIC="shoot bachelor topic opinion key enter swear author typical blue video mystery"
 set DEPLOY_PIONEERS=1
 set MAX_PIONEERS=10
 set PIONEERS_RESERVED_LIMIT=5
