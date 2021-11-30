@@ -45,7 +45,7 @@ async function main() {
       { gasLimit: "100000" }
     );
 
-    console.log('Flipping Sale State. Please wait for confirmation.');
+    console.log('Flipping Sale State. Please wait for confirmation. network: ', NETWORK);
     const result = await nftContract.methods
       .flipSaleState()
       .send({ from: OWNER_ADDRESS });

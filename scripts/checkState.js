@@ -45,44 +45,44 @@ const NFT_ABI = [
     stateMutability: "nonpayable",
     type: "function",
   },
-  {
-    constant: false,
-    inputs: [
-        {
-            name: 'tokenId',
-            type: 'uint256'
-        }
-    ],
-    name: "tokenURI",
-    outputs: [
-        {
-            name: '',
-            type: 'string'
-        }
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-        {
-            name: 'index',
-            type: 'uint256'
-        }
-    ],
-    name: "ownerOf",
-    outputs: [
-        {
-            name: 'owner',
-            type: 'address'
-        }
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
+  // {
+  //   constant: false,
+  //   inputs: [
+  //       {
+  //           name: 'tokenId',
+  //           type: 'uint256'
+  //       }
+  //   ],
+  //   name: "tokenURI",
+  //   outputs: [
+  //       {
+  //           name: '',
+  //           type: 'string'
+  //       }
+  //   ],
+  //   payable: false,
+  //   stateMutability: "view",
+  //   type: "function",
+  // },
+  // {
+  //   constant: false,
+  //   inputs: [
+  //       {
+  //           name: 'index',
+  //           type: 'uint256'
+  //       }
+  //   ],
+  //   name: "ownerOf",
+  //   outputs: [
+  //       {
+  //           name: 'owner',
+  //           type: 'address'
+  //       }
+  //   ],
+  //   payable: false,
+  //   stateMutability: "view",
+  //   type: "function",
+  // },
 ];
 
 async function main() {
@@ -103,6 +103,7 @@ async function main() {
       { gasLimit: "100000" }
     );
 
+    console.log('checking saleIsActive on network ', NETWORK);
     const result = await nftContract.methods
       .saleIsActive
       .call().call();
@@ -110,20 +111,21 @@ async function main() {
     console.log("Sale is active = " + result);
     // console.log("Minted presale pioneer. Result: " + JSON.stringify(result, null, 0));
     
+    console.log('checking presaleIsActive on network ', NETWORK);
     const result2 = await nftContract.methods
       .presaleIsActive
       .call().call();
     console.log("Presale is active = " + result2);
     
-    const result3 = await nftContract.methods
-      .tokenURI(0)
-      .call({ from: OWNER_ADDRESS });
-    console.log("Token 0 uri = " + result3);
+    // const result3 = await nftContract.methods
+    //   .tokenURI(0)
+    //   .call({ from: OWNER_ADDRESS });
+    // console.log("Token 0 uri = " + result3);
     
-    const result5 = await nftContract.methods
-      .ownerOf(0)
-      .call({ from: OWNER_ADDRESS });
-    console.log("tokenId nth token owned by me indexed = " + result5);
+    // const result5 = await nftContract.methods
+    //   .ownerOf(0)
+    //   .call({ from: OWNER_ADDRESS });
+    // console.log("tokenId nth token owned by me indexed = " + result5);
   } else {
     console.error(
       "Add NFT_CONTRACT_ADDRESS or FACTORY_CONTRACT_ADDRESS to the environment variables"

@@ -49,9 +49,9 @@ async function main() {
       { gasLimit: "300000" }
     );
 
-    let numToMint = 5;
+    let numToMint = 1;
     // Pioneers issued directly to the owner.
-    console.log('Minting ', numToMint, ' Pioneers. Please wait for confirmation.');
+    console.log('Minting ', numToMint, ' Pioneers. Please wait for confirmation. network: ', NETWORK);
     const result = await nftContract.methods
       .mintPioneer(numToMint)
       .send({ from: OWNER_ADDRESS, value: numToMint * 60000000000000000 });

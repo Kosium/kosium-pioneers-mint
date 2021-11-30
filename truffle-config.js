@@ -73,7 +73,7 @@ module.exports = {
         return new HDWalletProvider({mnemonic: {phrase: MNEMONIC}, providerOrUrl: mainnetNodeUrl});
       },
       gas: 4000000,
-      gasPrice: 150000000000,
+      gasPrice: 170000000000,
       from: "0x62bb848ec84D08d55Ea70a19118300bae6658F18"
     },
   },

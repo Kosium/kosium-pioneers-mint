@@ -46,12 +46,15 @@ async function main() {
     const nftContract = new web3Instance.eth.Contract(
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
-      { gasLimit: "200000" }
+      { 
+        gasLimit: "200000",
+        gasPrice: '150000000000' 
+      }
     );
-    let baseUri = 'ipfs://QmcU7HDrX82jqfQYKaVn7GsDavyKYGNENNtKc45iDcixdK/';
+    let baseUri = 'ipfs://QmZtfk9XDdY5Sp4EjmSgwKWwKxbFiW3Q5dWZEgxT25nWyn/';
 
     // Pioneers issued directly to the owner.
-    console.log('Setting base token uri. Please wait.')
+    console.log('Setting base token uri. Please wait. network: ', NETWORK);
     const result = await nftContract.methods
       .setBaseTokenURI(baseUri)
       .send({ from: OWNER_ADDRESS });

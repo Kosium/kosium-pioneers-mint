@@ -33,7 +33,7 @@ const NFT_ABI = [
 
 //can read from csv later
 // let addressesToWhiteList = ['0x7390ceF3391A2E2079D74E8fFd8EFEF478e1b793'];
-let addressesToWhiteList = ['0x444569AE8A0324b9B32b3aBdDDb98CcB13036Dd4'];//mizuri.eth
+let addressesToWhiteList = ['0x62bb848ec84D08d55Ea70a19118300bae6658F18'];//blingus.eth
 
 // let addressToWhiteList = '0xf82d87ba0b79c200FfC8a9D1e4f0E360198d0Ec9';
 // let addressToWhiteList = '0xf0a674B465D5262dAB09485825EB1AEcd3C8d356';
@@ -56,7 +56,7 @@ async function main() {
       { gasLimit: "300000" }
     );
 
-    console.log('Whitelisting Addresses. Please wait for confirmation.');
+    console.log('Whitelisting Addresses. Please wait for confirmation. network: ', NETWORK);
     const result = await nftContract.methods
       .whitelistAddressForPresale(addressesToWhiteList)
       .send({ from: OWNER_ADDRESS });
