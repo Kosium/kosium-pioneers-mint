@@ -16,18 +16,17 @@ if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
 
 const NFT_ABI = [
   {
-    constant: false,
-    inputs: [
+    "inputs": [
       {
-        name: "numberOfTokens",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "numberOfTokens",
+        "type": "uint256"
+      }
     ],
-    name: "mintPioneer",
-    outputs: [],
-    payable: true,
-    stateMutability: "payable",
-    type: "function",
+    "name": "mintPioneer",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
   },
 ];
 

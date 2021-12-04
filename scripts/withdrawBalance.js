@@ -16,14 +16,11 @@ if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
 
 const NFT_ABI = [
   {
-    constant: false,
-    inputs: [
-    ],
-    name: "withdraw",
-    outputs: [],
-    payable: true,
-    stateMutability: "nonpayable",
-    type: "function",
+    "inputs": [],
+    "name": "withdraw",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
 ];
 
@@ -42,10 +39,13 @@ async function main() {
     const nftContract = new web3Instance.eth.Contract(
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
-      { gasLimit: "100000" }
+      { 
+        gasLimit: "100000",
+        gasPrice: '100000000000'
+      }
     );
 
-    console.log('Withdrawing Balance. Please wait for confirmation.');
+    console.log('Withdrawing Balance. Please wait for confirmation. Network = ', NETWORK);
     const result = await nftContract.methods
       .withdraw()
       .send({ from: OWNER_ADDRESS });

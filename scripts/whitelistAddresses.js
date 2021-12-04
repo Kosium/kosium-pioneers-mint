@@ -16,27 +16,22 @@ if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
 
 const NFT_ABI = [
   {
-    constant: false,
-    inputs: [
-        {
-          name: "earlyAdopterAddress",
-          type: "address[]",
-        },
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "earlyAdopterAddresses",
+        "type": "address[]"
+      }
     ],
-    name: "whitelistAddressForPresale",
-    outputs: [],
-    payable: true,
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "whitelistAddressForPresale",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
 ];
 
 //can read from csv later
-// let addressesToWhiteList = ['0x7390ceF3391A2E2079D74E8fFd8EFEF478e1b793'];
-let addressesToWhiteList = ['0x62bb848ec84D08d55Ea70a19118300bae6658F18'];//blingus.eth
-
-// let addressToWhiteList = '0xf82d87ba0b79c200FfC8a9D1e4f0E360198d0Ec9';
-// let addressToWhiteList = '0xf0a674B465D5262dAB09485825EB1AEcd3C8d356';
+let addressesToWhiteList = ['0x444569AE8A0324b9B32b3aBdDDb98CcB13036Dd4', '0x7dFBdEE007AcdbcC299b7D79d851b7A36aDDc909'];
 
 async function main() {
   const network =
@@ -49,11 +44,15 @@ async function main() {
     });
   const web3Instance = new web3(provider);
 
+  let gasLimit = 100000;
   if (NFT_CONTRACT_ADDRESS) {
     const nftContract = new web3Instance.eth.Contract(
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
-      { gasLimit: "300000" }
+      { 
+        gasLimit: gasLimit,
+        gasPrice: '110000000000'
+      }
     );
 
     console.log('Whitelisting Addresses. Please wait for confirmation. network: ', NETWORK);

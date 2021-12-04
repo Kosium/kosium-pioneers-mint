@@ -16,14 +16,11 @@ if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
 
 const NFT_ABI = [
   {
-    constant: false,
-    inputs: [
-    ],
-    name: "flipPresaleState",
-    outputs: [],
-    payable: true,
-    stateMutability: "nonpayable",
-    type: "function",
+    "inputs": [],
+    "name": "flipPresaleState",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
 ];
 
@@ -44,7 +41,7 @@ async function main() {
       NFT_CONTRACT_ADDRESS,
       {
         gasLimit: "100000",
-        gasPrice: '150000000000'
+        gasPrice: '110000000000'
       }
     );
 
