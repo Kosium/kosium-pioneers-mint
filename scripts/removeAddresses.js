@@ -6,7 +6,7 @@ const isInfura = !!process.env.INFURA_KEY;
 const NFT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS;
 const OWNER_ADDRESS = process.env.OWNER_ADDRESS;
 const NETWORK = process.env.NETWORK;
-const allAddresses = require('./whitelistData/changeAddresses0.json');
+const allAddresses = require('./whitelistData/removeAddresses0.json');
 
 if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
   console.error(
@@ -16,19 +16,19 @@ if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
 }
 
 const NFT_ABI = [
-  {
-    "inputs": [
-      {
-        "internalType": "address[]",
-        "name": "earlyAdopterAddresses",
-        "type": "address[]"
-      }
-    ],
-    "name": "whitelistAddressForPresale",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "earlyAdopterAddresses",
+          "type": "address[]"
+        }
+      ],
+      "name": "removeFromWhitelist",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
 ];
 
 //can read from csv later
@@ -65,11 +65,11 @@ async function main() {
         }
       );
 
-      console.log('Whitelisting these Addresses: ', addressesToWhiteList, '. Please wait for confirmation. network: ', NETWORK);
+      console.log('Removing from whitelist these Addresses: ', addressesToWhiteList, '. Please wait for confirmation. network: ', NETWORK);
       const result = await nftContract.methods
-        .whitelistAddressForPresale(addressesToWhiteList)
+        .removeFromWhitelist(addressesToWhiteList)
         .send({ from: OWNER_ADDRESS });
-      console.log("Addresses whitelisted. Transaction: " + JSON.stringify(result));//.transactionHash);
+      console.log("Addresses removed from whitelist. Transaction: " + JSON.stringify(result));//.transactionHash);
 
     } else {
         console.error(
