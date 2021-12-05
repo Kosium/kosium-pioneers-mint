@@ -234,7 +234,7 @@ async function main() {
       .call().call();
     console.log("Presale is active = " + result2);
 
-    let whitelistCheckAddress = '0x444569AE8A0324b9B32b3aBdDDb98CcB13036Dd4';
+    let whitelistCheckAddress = '0xF14b199a2b9693E1C1722e88CdeF066E54822CF4';
     // console.log('checking if I am whitelisted on network ', NETWORK);
     const result3 = await nftContract.methods
       .whitelistedPresaleAddresses(whitelistCheckAddress).call();

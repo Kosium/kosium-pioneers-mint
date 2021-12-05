@@ -13,18 +13,18 @@
     
     const NFT_ABI = [
       {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "numberOfTokens",
-          "type": "uint256"
-        }
-      ],
-      "name": "mintPresalePioneer",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    }
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "numberOfTokens",
+            "type": "uint256"
+          }
+        ],
+        "name": "mintPresalePioneer",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+      }
     ];
     
     
@@ -56,6 +56,86 @@
       
     } else {
       console.log('metamask not installed');
+    }
+  }
+
+  async function amIWhitelisted(){
+    if(typeof window.ethereum !== 'undefined') {
+      var web3Instance = new Web3(window.ethereum);//window.web3.currentProvider
+
+      await ethereum.request({ method: 'eth_requestAccounts' });
+
+      const NFT_ABI_MINTED = [
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "whitelistedPresaleAddresses",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "presaleBoughtCounts",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+    ]
+
+    let gasLimit = 100000;
+    const nftContract = new web3Instance.eth.Contract(
+      NFT_ABI_MINTED,
+      '0x9C93F03D43A7F1B0384c97E7C47c2515E53bb2a5',
+      { gasLimit: gasLimit}// toString(gasLimit) }
+    );
+
+    let whitelistCheckAddress = ethereum.selectedAddress;
+
+    const result = await nftContract.methods
+      .whitelistedPresaleAddresses(whitelistCheckAddress).call();
+
+    const result4 = await nftContract.methods
+      .presaleBoughtCounts(whitelistCheckAddress).call();
+    console.log("This address", whitelistCheckAddress, " bought = " + result4);
+
+      console.log('am I whitelisted result = ' , result);
+      updateAmIWhitelistedText(result, result4);
+    }
+    else {
+      console.log('window.ethereum was undefined');
+    }
+  }
+
+  function updateAmIWhitelistedText(iAmWhitelisted, numBought){
+    if (iAmWhitelisted){
+      document.getElementById("iAmWhitelistedText").innerHTML = "You are whitelisted and have minted " + numBought + " Pioneers";
+    }
+    else {
+      document.getElementById("iAmWhitelistedText").innerHTML = "You are NOT whitelisted yet. Please wait until you are to mint.";
     }
   }
   
