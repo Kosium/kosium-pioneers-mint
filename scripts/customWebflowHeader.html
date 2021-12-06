@@ -3,62 +3,6 @@
 <script type="text/javascript"> 
   let numToMint = 0;
 
-  async function mintPioneer(){
-    if (numToMint == 0){
-      return;
-    }
-    
-    console.log('TESTING FUNCTION CALL');
-    console.log('mint this many: ', numToMint);
-    
-    const NFT_ABI = [
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "numberOfTokens",
-            "type": "uint256"
-          }
-        ],
-        "name": "mintPresalePioneer",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      }
-    ];
-    
-    
-    
-    if(typeof window.ethereum !== 'undefined') {
-      console.log('using current provider. metamask is installed');
-      var web3Instance = new Web3(window.ethereum);//window.web3.currentProvider
-      
-      await ethereum.request({ method: 'eth_requestAccounts' });
-      // const addrs = await ethereum.request({ method: 'eth_accounts' });
-      // console.log('ethereum get accounts', addrs);
-      // let selectedAddr = ethereum.selectedAddress;
-      
-      // var block = await web3Instance.eth.getBlock("latest");
-      // var gasLimit = block.gasLimit/block.transactions.length;
-      let gasLimit = numToMint * 150000;
-      const nftContract = new web3Instance.eth.Contract(
-        NFT_ABI,
-        '0x9C93F03D43A7F1B0384c97E7C47c2515E53bb2a5',
-        { gasLimit: gasLimit}// toString(gasLimit) }
-      );
-      console.log('minting presale pioneer sending');
-      //web3.eth.getTransactionCount(ethAddress) //can get txn count and increment for nonce
-      let ethVal = 60000000000000000*numToMint;
-      const result = await nftContract.methods
-      .mintPresalePioneer(numToMint)
-      .send({ from: ethereum.selectedAddress, value: ethVal });
-      console.log('done minting');
-      
-    } else {
-      console.log('metamask not installed');
-    }
-  }
-
   async function amIWhitelisted(){
     if(typeof window.ethereum !== 'undefined') {
       var web3Instance = new Web3(window.ethereum);//window.web3.currentProvider
@@ -124,9 +68,74 @@
 
       console.log('am I whitelisted result = ' , result);
       updateAmIWhitelistedText(result, result4);
+      return result;
     }
     else {
       console.log('window.ethereum was undefined');
+      return false;
+    }
+  }
+
+  async function mintPioneer(){
+    if (numToMint == 0){
+      return;
+    }
+    
+    console.log('TESTING FUNCTION CALL');
+    console.log('mint this many: ', numToMint);
+
+    let canMint = await amIWhitelisted();
+
+    if (!canMint){
+      console.log('User not whitelisted');
+      return;
+    }
+    
+    const NFT_ABI = [
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "numberOfTokens",
+            "type": "uint256"
+          }
+        ],
+        "name": "mintPresalePioneer",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+      }
+    ];
+    
+    
+    
+    if(typeof window.ethereum !== 'undefined') {
+      console.log('using current provider. metamask is installed');
+      var web3Instance = new Web3(window.ethereum);//window.web3.currentProvider
+      
+      await ethereum.request({ method: 'eth_requestAccounts' });
+      // const addrs = await ethereum.request({ method: 'eth_accounts' });
+      // console.log('ethereum get accounts', addrs);
+      // let selectedAddr = ethereum.selectedAddress;
+      
+      // var block = await web3Instance.eth.getBlock("latest");
+      // var gasLimit = block.gasLimit/block.transactions.length;
+      let gasLimit = numToMint * 150000;
+      const nftContract = new web3Instance.eth.Contract(
+        NFT_ABI,
+        '0x9C93F03D43A7F1B0384c97E7C47c2515E53bb2a5',
+        { gasLimit: gasLimit}// toString(gasLimit) }
+      );
+      console.log('minting presale pioneer sending');
+      //web3.eth.getTransactionCount(ethAddress) //can get txn count and increment for nonce
+      let ethVal = 60000000000000000*numToMint;
+      const result = await nftContract.methods
+      .mintPresalePioneer(numToMint)
+      .send({ from: ethereum.selectedAddress, value: ethVal });
+      console.log('done minting');
+      
+    } else {
+      console.log('metamask not installed');
     }
   }
 

@@ -6,7 +6,7 @@ const isInfura = !!process.env.INFURA_KEY;
 const NFT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS;
 const OWNER_ADDRESS = process.env.OWNER_ADDRESS;
 const NETWORK = process.env.NETWORK;
-const allAddresses = require('./whitelistData/changeAddresses0.json');
+const allAddresses = require('./whitelistData/addresses5.json');
 
 if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
   console.error(
@@ -41,6 +41,7 @@ async function main() {
   for (let i = 0; i < max_i; ++i){
     let nextIndex =  numToWLPerCall * (i + 1);
     let lastIndex = nextIndex > allAddresses.length ? allAddresses.length : nextIndex;
+    console.log('gas limit: ', gasLimitPerCall);
     let addressesToWhiteList = allAddresses.slice(numToWLPerCall * i, lastIndex);
     // console.log('addresses: ', addressesToWhiteList);
 
