@@ -41,7 +41,7 @@ async function main() {
       NFT_CONTRACT_ADDRESS,
       { 
         gasLimit: "100000",
-        gasPrice: '100000000000'
+        gasPrice: '75000000000'
       }
     );
 

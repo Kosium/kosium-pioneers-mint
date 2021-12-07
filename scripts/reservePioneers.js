@@ -49,7 +49,7 @@ async function main() {
 
   let numToReserve = 1;
   let gasLimit = 150000 + 10000 * numToReserve;
-  let addressToReserveTo = '';//OWNER_ADDRESS;
+  let addressToReserveTo = '';//OWNER_ADDRESS;//prm
 
   if (NFT_CONTRACT_ADDRESS) {
     const nftContract = new web3Instance.eth.Contract(
