@@ -6,7 +6,7 @@ const isInfura = !!process.env.INFURA_KEY;
 const NFT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS;
 const OWNER_ADDRESS = process.env.OWNER_ADDRESS;
 const NETWORK = process.env.NETWORK;
-const allAddresses = require('./whitelistData/addresses6.json');
+const allAddresses = require('./whitelistData/addresses8.json');
 
 if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
   console.error(

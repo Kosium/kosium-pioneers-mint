@@ -16,18 +16,17 @@ if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
 
 const NFT_ABI = [
   {
-    constant: false,
-    inputs: [
+    "inputs": [
       {
-        name: "newBaseURI",
-        type: "string",
-      },
+        "internalType": "string",
+        "name": "newBaseURI",
+        "type": "string"
+      }
     ],
-    name: "setBaseTokenURI",
-    outputs: [],
-    payable: true,
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "setBaseTokenURI",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
 ];
 
@@ -47,14 +46,14 @@ async function main() {
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
       { 
-        gasLimit: "200000",
-        gasPrice: '150000000000' 
+        gasLimit: "100000",
+        gasPrice: '100000000000' 
       }
     );
-    let baseUri = 'ipfs://QmZtfk9XDdY5Sp4EjmSgwKWwKxbFiW3Q5dWZEgxT25nWyn/';
+    let baseUri = 'ipfs://QmS1TLaJk6zDrf8wEGYx3wDN9asnFaMXUQ3ZPKivZHGTUf/';
 
     // Pioneers issued directly to the owner.
-    console.log('Setting base token uri. Please wait. network: ', NETWORK);
+    console.log('Setting base token uri to ', baseUri, ' Please wait. network: ', NETWORK);
     const result = await nftContract.methods
       .setBaseTokenURI(baseUri)
       .send({ from: OWNER_ADDRESS });

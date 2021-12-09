@@ -16,14 +16,11 @@ if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
 
 const NFT_ABI = [
   {
-    constant: false,
-    inputs: [
-    ],
-    name: "flipSaleState",
-    outputs: [],
-    payable: true,
-    stateMutability: "nonpayable",
-    type: "function",
+    "inputs": [],
+    "name": "flipSaleState",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
 ];
 
@@ -42,7 +39,10 @@ async function main() {
     const nftContract = new web3Instance.eth.Contract(
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
-      { gasLimit: "100000" }
+      { 
+        gasLimit: "100000",
+        gasPrice: '110000000000'
+      }
     );
 
     console.log('Flipping Sale State. Please wait for confirmation. network: ', NETWORK);
