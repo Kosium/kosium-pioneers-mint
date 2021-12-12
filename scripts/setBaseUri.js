@@ -47,10 +47,10 @@ async function main() {
       NFT_CONTRACT_ADDRESS,
       { 
         gasLimit: "100000",
-        gasPrice: '100000000000' 
+        // gasPrice: '100000000000' 
       }
     );
-    let baseUri = 'ipfs://QmS1TLaJk6zDrf8wEGYx3wDN9asnFaMXUQ3ZPKivZHGTUf/';
+    let baseUri = 'ipfs://QmZKp63AYasVRkZbX7e7oRrvAmkSnwyF2K6UVQymCfjchp/';
 
     // Pioneers issued directly to the owner.
     console.log('Setting base token uri to ', baseUri, ' Please wait. network: ', NETWORK);
