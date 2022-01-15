@@ -50,7 +50,7 @@ async function main() {
         // gasPrice: '100000000000' 
       }
     );
-    let baseUri = 'ipfs://QmZKp63AYasVRkZbX7e7oRrvAmkSnwyF2K6UVQymCfjchp/';
+    let baseUri = 'https://server.kosiumserver.com/metadata/';//'ipfs://QmZKp63AYasVRkZbX7e7oRrvAmkSnwyF2K6UVQymCfjchp/';
 
     // Pioneers issued directly to the owner.
     console.log('Setting base token uri to ', baseUri, ' Please wait. network: ', NETWORK);
