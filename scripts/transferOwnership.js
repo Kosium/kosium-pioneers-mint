@@ -6,7 +6,7 @@ const isInfura = !!process.env.INFURA_KEY;
 const NFT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS;
 const OWNER_ADDRESS = process.env.OWNER_ADDRESS;
 const NETWORK = process.env.NETWORK;
-const MINT_TO_ADDRESS = process.env.MINT_TO_ADDRESS;
+const KosiumPioneerABIJSON = require('../deployedABI/KosiumPioneerABI');
 
 if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
   console.error(
@@ -15,26 +15,7 @@ if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
   throw("Please set a mnemonic, Alchemy/Infura key, owner, network, and contract address.");
 }
 
-const NFT_ABI = [
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "numberToReserve",
-        "type": "uint256"
-      }
-    ],
-    "name": "reservePioneers",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-];
+const NFT_ABI = KosiumPioneerABIJSON.abi;
 
 async function main() {
   const network =
@@ -47,30 +28,29 @@ async function main() {
     });
   const web3Instance = new web3(provider);
 
-  let numToReserve = 2;
-  let gasLimit = 150000 + 10000 * numToReserve;
-  let addressToReserveTo = '0x85a091830609454acc8234e63fa2225bd6168a18';//OWNER_ADDRESS;//prm
-
   if (NFT_CONTRACT_ADDRESS) {
     const nftContract = new web3Instance.eth.Contract(
       NFT_ABI,
       NFT_CONTRACT_ADDRESS,
       { 
-        gasLimit: gasLimit,
-        gasPrice: '32000000000'
+        gasLimit: "100000",
+        gasPrice: '60000000000'
       }
     );
 
-    console.log('Minting to' , addressToReserveTo + ' Please wait for confirmation. Network: ', NETWORK);
+    let newOwnerAddress = '0xCb86A49C44Ae0013c2EB0E1825bEA6c360727f9e';
+
+    console.log('Executing transaction. Please wait for confirmation. Network = ', NETWORK);
     const result = await nftContract.methods
-      .reservePioneers(addressToReserveTo, numToReserve)
-      .send({ from: OWNER_ADDRESS});
-    console.log("Minted pioneer. Transaction: " + JSON.stringify(result));//.transactionHash);
-  } else {
-    console.error(
-      "Add NFT_CONTRACT_ADDRESS or FACTORY_CONTRACT_ADDRESS to the environment variables"
-    );
-  }
+      .transferOwnership(newOwnerAddress)
+      .send({ from: OWNER_ADDRESS });
+    console.log("Completed. Transaction: " + result.transactionHash);
+
+    } else {
+        console.error(
+        "Add NFT_CONTRACT_ADDRESS or FACTORY_CONTRACT_ADDRESS to the environment variables"
+        );
+    }
 }
 
 main();

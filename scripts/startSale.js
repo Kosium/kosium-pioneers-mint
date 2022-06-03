@@ -11,7 +11,7 @@ if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
   console.error(
     "Please set a mnemonic, Alchemy/Infura key, owner, network, and contract address."
   );
-  return;
+  throw("Please set a mnemonic, Alchemy/Infura key, owner, network, and contract address.");
 }
 
 const NFT_ABI = [
@@ -41,7 +41,7 @@ async function main() {
       NFT_CONTRACT_ADDRESS,
       { 
         gasLimit: "100000",
-        gasPrice: '110000000000'
+        gasPrice: '38000000000'
       }
     );
 

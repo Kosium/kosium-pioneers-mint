@@ -11,7 +11,7 @@ if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
   console.error(
     "Please set a mnemonic, Alchemy/Infura key, owner, network, and contract address."
   );
-  return;
+  throw("Please set a mnemonic, Alchemy/Infura key, owner, network, and contract address.");
 }
 
 const NFT_ABI = [
